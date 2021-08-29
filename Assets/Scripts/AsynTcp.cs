@@ -39,7 +39,10 @@ namespace yg {
 
 
         public static ConcurrentQueue<EventData> globalQueue = new ConcurrentQueue<EventData>();
-        
+
+
+        public static ConcurrentDictionary<int, object> protoClassDict = new ConcurrentDictionary<int, object>();
+
 
         public static void Connect()
         {
@@ -177,10 +180,24 @@ namespace yg {
 
         }
 
+
+
+        public void putProto(int msgId , object protoClazz)
+        {
+            protoClassDict.TryAdd(msgId , protoClazz);
+        }
+        public object getProto(int msgId)
+        {
+            object protoClazz;
+
+            protoClassDict.TryGetValue(msgId ,out protoClazz);
+            return protoClazz;
+        }
+
     }
 
 
-    
+   
 
 
 }

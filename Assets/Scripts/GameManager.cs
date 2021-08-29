@@ -40,6 +40,13 @@ namespace yg
 
             Console.WriteLine("1111111111111111");
 
+            DontDestroyOnLoad(gameObject);
+
+            TcpClient.putProcessor(120 , new CreateEnemyProcessor());
+            TcpClient.Connect();
+
+
+
         }
 
         // Update is called once per frame
