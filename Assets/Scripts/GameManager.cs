@@ -52,6 +52,8 @@ namespace yg
         // Update is called once per frame
         void Update()
         {
+            updateMsg();
+
             TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
 
             long time = Convert.ToInt64(ts.TotalSeconds);
@@ -68,6 +70,24 @@ namespace yg
             // Debug.Log("send===========");
 
 
+        }
+
+        public void updateMsg() {
+            EventData eventData = null;
+            TcpClient.globalQueue.TryDequeue(out eventData);
+            if (eventData != null)
+            {
+
+                Processor processor;
+                TcpClient.processorDict.TryGetValue(eventData.msgId, out processor);
+
+                if (processor != null)
+                {
+
+                    processor.process(eventData.msg);
+                }
+
+            }
         }
 
 

@@ -142,7 +142,7 @@ namespace yg {
 
                     
 
-                    Debug.Log("===============jjj=====>>=" + s + " >>");
+                    Debug.Log("msgId : " + msgId + " ====receive msg : =====>>=" + s + " >> msgId"  );
 
                 }
                 catch (Exception ex)
