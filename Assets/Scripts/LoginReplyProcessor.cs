@@ -7,10 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class LoginReplyProcessor : Processor
 {
+    private GameObject wallPrefab;
 
-    
     public LoginReplyProcessor() {
-
+        wallPrefab = Resources.Load<GameObject>("Prefabs/Wall");
     }
 
     
@@ -48,10 +48,79 @@ public class LoginReplyProcessor : Processor
         string battleSceneName = "BattleScene";
 
         SceneManager.LoadScene(battleSceneName);
+        Debug.Log("login success, LoadScene ......  " + JsonUtility.ToJson(loginReply));
 
-        Debug.Log("login success, LoadScene ......  ");
+        List<WallMsg> wallMsg = parseFromStr(str);
+
+        if (wallMsg != null && wallMsg.Count > 0) {
+            Debug.Log("createWalls ::: " + wallMsg.Count);
+            createWalls(wallMsg);
+        }
+
 
 
     }
+    public List<WallMsg> parseFromStr(string str) {
+        List<WallMsg> wallMsgs = new List<WallMsg>();
+
+        string wallsStr = str.Substring(str.IndexOf('[')+1 ,   str.IndexOf(']') - str.IndexOf('[') - 1);
+
+        Debug.Log("wallsStr ::: " + wallsStr);
+
+        string wall = "";
+        int bracesWaitNum = 0;
+        foreach ( char s in wallsStr  ) {
+            if ( s == '{') {
+                if (bracesWaitNum == 0)
+                {
+                    wall = "";
+                }
+                bracesWaitNum++;
+                
+                wall += s;
+            }
+            else if (s == '}')
+            {
+                wall += s;
+                bracesWaitNum--;
+                
+                if (bracesWaitNum == 0) { 
+                    Debug.Log("parse wall ::: " + wall);
+                    WallMsg wallMsg = JsonUtility.FromJson<WallMsg>(wall);
+                    wallMsgs.Add(wallMsg);
+                    wall = "";
+                }
+            }
+            else {
+                wall += s;
+            }
+        }
+        
+        return wallMsgs;
+    }
+
+
+
+    public void createWalls(List<WallMsg> wallMsgs) {
+
+        foreach ( WallMsg wallMsg in wallMsgs) {
+            Debug.Log(" before createWalls ......  ");
+            GameObject gameObject = GameObject.Instantiate(wallPrefab);
+            gameObject.GetComponent<Transform>().position = new Vector3(wallMsg.x, wallMsg.y, 0);
+            gameObject.GetComponent<Transform>().localScale = new Vector3(wallMsg.width, wallMsg.height, 0);
+            gameObject.SetActive(true);
+            GameObject.DontDestroyOnLoad(gameObject);
+            Debug.Log(" createWalls ......  ");
+        }
+
+        
+    }
+
+
+    public class WallsStr {
+
+       public string str;
+    }
+
   
 }
