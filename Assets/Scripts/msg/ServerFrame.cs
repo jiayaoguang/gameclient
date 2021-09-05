@@ -2,18 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveMsg
+public class ServerFrame
 {
 
     Vector3 targetPos;
-
-
-}
-public class MoveNotifyMsg
-{
-    public long roleId;
-    public Vector3 targetPos;
-
 
 
 }
