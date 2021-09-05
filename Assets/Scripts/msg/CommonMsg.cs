@@ -15,7 +15,8 @@ namespace msg{
     {
         public Vector2Msg posi;
 
-        public float y;
+        public int width;
+        public int height;
     }
 
 

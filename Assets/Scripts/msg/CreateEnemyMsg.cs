@@ -10,18 +10,13 @@ namespace msg {
     {
         public long uid; 
         public string name;
-        public Vector2DMsg position;
+        public Vector2Msg position;
 
 
 
     }
 
-    public class Vector2DMsg {
-
-        public float x;
-        public float z;
-    
-    }
+ 
 
     public class CreateEnemyMsg{
     

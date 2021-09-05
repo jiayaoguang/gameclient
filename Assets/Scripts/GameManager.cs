@@ -38,14 +38,16 @@ namespace yg
 
             //TcpClient.Connect();
 
-            Console.WriteLine("1111111111111111");
+            //Console.WriteLine("1111111111111111");
+            TcpClient.PutProto(108, typeof(msg.LoginRequestMsg));
+            TcpClient.PutProto(109, typeof(msg.LoginReplyMsg));
+            TcpClient.PutProto(120, typeof(msg.CreateEnemyMsg));
 
-            Type type = typeof(msg.CreateEnemyMsg);
-            TcpClient.putProto(120, type);
 
             DontDestroyOnLoad(gameObject);
 
             TcpClient.putProcessor(120 , new CreateEnemyProcessor());
+            TcpClient.putProcessor(109 , new LoginReplyProcessor());
             TcpClient.Connect();
 
 

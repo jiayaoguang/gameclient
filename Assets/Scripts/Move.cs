@@ -20,9 +20,9 @@ public class Move : MonoBehaviour
         bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
         for (int i = 0;i < 100; i++) {
             
-            GameObject bullet = Instantiate( bulletPrefab );
-            bullet.SetActive(true);
-            bullet.GetComponent<Transform>().position = new Vector3(10,0,10);
+            //GameObject bullet = Instantiate( bulletPrefab );
+            //bullet.SetActive(true);
+            //bullet.GetComponent<Transform>().position = new Vector3(10,0,10);
         }
     }
 
