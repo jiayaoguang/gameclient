@@ -40,6 +40,9 @@ namespace yg
 
             Console.WriteLine("1111111111111111");
 
+            Type type = typeof(msg.CreateEnemyMsg);
+            TcpClient.putProto(120, type);
+
             DontDestroyOnLoad(gameObject);
 
             TcpClient.putProcessor(120 , new CreateEnemyProcessor());

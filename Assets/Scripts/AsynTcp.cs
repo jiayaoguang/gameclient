@@ -51,18 +51,26 @@ namespace yg {
 
         public static void Connect(String addr, int port)
         {
-            IPAddress ip = IPAddress.Parse(addr);
+            try
+            {
+                IPAddress ip = IPAddress.Parse(addr);
 
-            IPEndPoint point = new IPEndPoint(ip, 8088);
-            clientSocket.Connect(point);
+                IPEndPoint point = new IPEndPoint(ip, 8088);
+                clientSocket.Connect(point);
 
-            //clientSocket.ReceiveAsync
+                //clientSocket.ReceiveAsync
 
-            Thread th = new Thread(ReceiveMsg);
+                Thread th = new Thread(ReceiveMsg);
 
-            th.IsBackground = true;
+                th.IsBackground = true;
 
-            th.Start();
+                th.Start();
+            }
+            catch(Exception e) {
+                string errorMsg = "´错误信息:\t\t" + e.Message + "\t\t" + e.GetType() + "\t\t" + e.StackTrace;
+                Debug.LogError(errorMsg);
+            }
+            
 
         }
 
@@ -182,11 +190,11 @@ namespace yg {
 
 
 
-        public void putProto(int msgId , object protoClazz)
+        public static void putProto(int msgId , object protoClazz)
         {
             protoClassDict.TryAdd(msgId , protoClazz);
         }
-        public object getProto(int msgId)
+        public static object getProto(int msgId)
         {
             object protoClazz;
 

@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletInfo
-{
+namespace msg{
+    public class Vector3Msg
+    {
    
+
+
+    }
+
 
 
 
