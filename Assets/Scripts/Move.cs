@@ -30,6 +30,11 @@ public class Move : MonoBehaviour
     void Update()
     {
 
+        if (InstanceManager.instance.playerManager.myPlayerInfo == null) {
+            return;
+        }
+
+
         if (Input.GetKey(KeyCode.W)) {
             if (transform.position.y < side_length) { 
                 transform.position = new Vector3(transform.position.x, transform.position.y + speed, 0);

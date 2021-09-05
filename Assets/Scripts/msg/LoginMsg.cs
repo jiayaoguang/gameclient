@@ -16,7 +16,7 @@ namespace msg{
 
     public class LoginReplyMsg {
 
-        private long id;
+        public long id;
         public string name;
         public string token;
         // 0 : 登陆成功 ， 其他表示失败
