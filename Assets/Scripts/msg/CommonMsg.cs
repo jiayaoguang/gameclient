@@ -20,8 +20,8 @@ namespace msg{
         public int height;
 
 
-        public float x;
-        public float y;
+        //public float x;
+        //public float y;
     }
 
 

@@ -19,7 +19,9 @@ public class LoginReplyProcessor : Processor
     {
         string str = System.Text.Encoding.Default.GetString(msg);
 
-        LoginReplyMsg loginReply = JsonUtility.FromJson<LoginReplyMsg>(str);
+        LoginReplyMsg loginReply = InstanceManager.instance.jsonManager.Deserialize<LoginReplyMsg>(str);
+
+        Debug.Log(" walls num  " + loginReply.wallMsgs.Count + " one pos > " + loginReply.wallMsgs);
 
        
 
@@ -48,13 +50,13 @@ public class LoginReplyProcessor : Processor
         string battleSceneName = "BattleScene";
 
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(battleSceneName);
-        Debug.Log("login success, LoadSceneAsyn ......  " + JsonUtility.ToJson(loginReply));
+        Debug.Log("login success, LoadSceneAsyn ......  ");
 
-        UpdateManager.AddUpdateOnce(new OnLoadLoginScene(asyncOperation , str , this));
+        UpdateManager.AddUpdateOnce(new OnLoadLoginScene(asyncOperation , loginReply.wallMsgs , this));
 
 
     }
-    public List<WallMsg> parseFromStr(string str) {
+    /*public List<WallMsg> parseFromStr(string str) {
         List<WallMsg> wallMsgs = new List<WallMsg>();
 
         string wallsStr = str.Substring(str.IndexOf('[')+1 ,   str.IndexOf(']') - str.IndexOf('[') - 1);
@@ -91,16 +93,16 @@ public class LoginReplyProcessor : Processor
         }
         
         return wallMsgs;
-    }
+    }*/
 
 
 
     public void createWalls(List<WallMsg> wallMsgs) {
 
         foreach ( WallMsg wallMsg in wallMsgs) {
-            Debug.Log(" before createWalls ......  ");
+            Debug.Log(" before createWalls ......  " + wallMsg.posi.x);
             GameObject gameObject = GameObject.Instantiate(wallPrefab);
-            gameObject.GetComponent<Transform>().position = new Vector3(wallMsg.x, wallMsg.y, 0);
+            gameObject.GetComponent<Transform>().position = new Vector3(wallMsg.posi.x, wallMsg.posi.y, 0);
             gameObject.GetComponent<Transform>().localScale = new Vector3(wallMsg.width, wallMsg.height, 0);
             gameObject.SetActive(true);
             GameObject.DontDestroyOnLoad(gameObject);
@@ -122,26 +124,27 @@ public class LoginReplyProcessor : Processor
 public class OnLoadLoginScene : UpdateAble
 {
     private AsyncOperation asyncOperation;
-    private string str;
+    private List<WallMsg> wallMsgs;
     private LoginReplyProcessor loginReplyProcessor;
 
-    public OnLoadLoginScene(AsyncOperation asyncOperation , string str, LoginReplyProcessor loginReplyProcessor) {
+    public OnLoadLoginScene(AsyncOperation asyncOperation , List<WallMsg> wallMsgs, LoginReplyProcessor loginReplyProcessor) {
         this.asyncOperation = asyncOperation;
-        this.str = str;
+        this.wallMsgs = wallMsgs;
         this.loginReplyProcessor = loginReplyProcessor;
     }
 
 
     public bool Update()
     {
+        //Debug.Log("asyncOperation.isDone : " + asyncOperation.isDone);
         if (asyncOperation.isDone)
         {
-            List<WallMsg> wallMsg = loginReplyProcessor.parseFromStr(str);
 
-            if (wallMsg != null && wallMsg.Count > 0)
+            Debug.Log("asyncOperation.isDone start ,,, GetActiveScene().name : " + SceneManager.GetActiveScene().name);
+            if (wallMsgs != null && wallMsgs.Count > 0)
             {
                 //Debug.Log("createWalls ::: " + wallMsg.Count);
-                loginReplyProcessor.createWalls(wallMsg);
+                loginReplyProcessor.createWalls(wallMsgs);
             }
 
             Debug.Log("asyncOperation.isDone GetActiveScene().name : " + SceneManager.GetActiveScene().name);

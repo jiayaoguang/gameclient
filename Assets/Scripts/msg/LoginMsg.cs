@@ -27,7 +27,7 @@ namespace msg{
         public int errorCode;
 
         [SerializeField]
-        public WallMsg[] wallMsgs;
+        public List<WallMsg> wallMsgs;
 
     }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace msg{
-    public class SceneInfoMsgMsg
+    public class SceneInfoMsg
     {
         public List<WallMsg> wallMsgs;
    

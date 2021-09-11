@@ -47,7 +47,7 @@ public class TcpClient
 
     public static void Connect()
     {
-        Connect("47.93.13.212", 8088);
+        Connect("127.0.0.1", 8088);
     }
 
     public static void Connect(String addr, int port)
@@ -88,7 +88,7 @@ public class TcpClient
     }
 
         public static void Send(int id, object data) {
-        Send(id,JsonUtility.ToJson(data));
+        Send(id,InstanceManager.instance.jsonManager.Serialize(data));
     }
 
     public static void Send(int id, string content)
@@ -257,7 +257,9 @@ public class UpdateManager
                 if (newUpdatList == null) {
                     newUpdatList = new List<UpdateAble>();
                 }
+                newUpdatList.Add(update);
             }
+            Debug.Log("executer update ..................");
         }
 
         updatList.Clear();

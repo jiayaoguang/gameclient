@@ -19,6 +19,8 @@ class InstanceManager
 
     public PlayerManager playerManager = new PlayerManager();
 
+    public readonly JsonManager jsonManager = new JsonManager();
+
 
 
 
