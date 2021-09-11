@@ -52,7 +52,7 @@ public class LoginReplyProcessor : Processor
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(battleSceneName);
         Debug.Log("login success, LoadSceneAsyn ......  ");
 
-        UpdateManager.AddUpdateOnce(new OnLoadLoginScene(asyncOperation , loginReply.wallMsgs , this));
+        InstanceManager.instance.updateManager.AddUpdate(new OnLoadLoginScene(asyncOperation , loginReply.wallMsgs , this));
 
 
     }
@@ -100,13 +100,13 @@ public class LoginReplyProcessor : Processor
     public void createWalls(List<WallMsg> wallMsgs) {
 
         foreach ( WallMsg wallMsg in wallMsgs) {
-            Debug.Log(" before createWalls ......  " + wallMsg.posi.x);
+            //Debug.Log(" before createWalls ......  " + wallMsg.posi.x);
             GameObject gameObject = GameObject.Instantiate(wallPrefab);
             gameObject.GetComponent<Transform>().position = new Vector3(wallMsg.posi.x, wallMsg.posi.y, 0);
             gameObject.GetComponent<Transform>().localScale = new Vector3(wallMsg.width, wallMsg.height, 0);
             gameObject.SetActive(true);
-            GameObject.DontDestroyOnLoad(gameObject);
-            Debug.Log(" createWalls ......  ");
+            //GameObject.DontDestroyOnLoad(gameObject);
+       
         }
 
         
@@ -133,8 +133,7 @@ public class OnLoadLoginScene : UpdateAble
         this.loginReplyProcessor = loginReplyProcessor;
     }
 
-
-    public bool Update()
+    public override void Update()
     {
         //Debug.Log("asyncOperation.isDone : " + asyncOperation.isDone);
         if (asyncOperation.isDone)
@@ -147,11 +146,16 @@ public class OnLoadLoginScene : UpdateAble
                 loginReplyProcessor.createWalls(wallMsgs);
             }
 
+            InstanceManager.instance.playerManager.myGameObject = GameObject.Find("Player");
+
             Debug.Log("asyncOperation.isDone GetActiveScene().name : " + SceneManager.GetActiveScene().name);
-            return true;
+            
+            Stop();
         }
         else {
-            return false;
+            
         }
     }
+
+   
 }

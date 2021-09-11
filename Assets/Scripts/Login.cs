@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Login : MonoBehaviour
+public class LoginManager
 {
     // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
-        gameObject.GetComponent<Button>().onClick.AddListener(SendLoginRequest);
+        GameObject loginBtnGameObject = GameObject.Find("LoginButton");
+
+        loginBtnGameObject.GetComponent<Button>().onClick.AddListener(SendLoginRequest);
     }
 
     private void SendLoginRequest()

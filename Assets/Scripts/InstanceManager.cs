@@ -21,6 +21,24 @@ class InstanceManager
 
     public readonly JsonManager jsonManager = new JsonManager();
 
+    public readonly LoginManager loginManager = new LoginManager();
+
+    public readonly UpdateManager updateManager = new UpdateManager();
+
+
+    public void Init() {
+
+        loginManager.Init();
+
+    }
+
+
+    public void Update() {
+
+        updateManager.Update();
+        playerManager.Update();
+    }
+
 
 
 

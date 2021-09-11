@@ -159,11 +159,11 @@ public class TcpClient
 
                 publicEvent(msgId , msg);
 
-                string s = Encoding.UTF8.GetString(buffer, 8, readLen);
+                //string s = Encoding.UTF8.GetString(buffer, 8, readLen);
 
                     
 
-                Debug.Log("msgId : " + msgId + " ====receive msg : =====>>=" + s + " >> msgId"  );
+               // Debug.Log("msgId : " + msgId + " ====receive msg : =====>>=" + s + " >> msgId"  );
 
             }
             catch (Exception ex)
@@ -234,51 +234,7 @@ public class TcpClient
 
 
 }
-public interface UpdateAble
-{
 
-    bool Update();
-
-}
-
-public class UpdateManager
-{
-
-    public static List<UpdateAble> updatList = new List<UpdateAble>();
-
-
-    public static void Update()
-    {
-        List<UpdateAble> newUpdatList = null;
-
-        foreach (UpdateAble update in updatList)
-        {
-            if (!update.Update()) {
-                if (newUpdatList == null) {
-                    newUpdatList = new List<UpdateAble>();
-                }
-                newUpdatList.Add(update);
-            }
-            Debug.Log("executer update ..................");
-        }
-
-        updatList.Clear();
-        if (newUpdatList != null) {
-            updatList = newUpdatList;
-        }
-    }
-
-    public static void AddUpdateOnce(UpdateAble update)
-    {
-
-        updatList.Add(update);
-
-    }
-
-   
-
-
-}
 
 
 

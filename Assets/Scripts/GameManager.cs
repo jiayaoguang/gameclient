@@ -46,11 +46,17 @@ namespace yg
             TcpClient.PutProto(109, typeof(msg.LoginReplyMsg));
             TcpClient.PutProto(120, typeof(msg.CreateEnemyMsg));
 
+            TcpClient.PutProto(121, typeof(msg.ClientFrameMsg));
+            TcpClient.PutProto(122, typeof(msg.ServerFrameMsg));
+
+            InstanceManager.instance.Init();
+
 
             DontDestroyOnLoad(gameObject);
 
             TcpClient.putProcessor(120 , new CreateEnemyProcessor());
             TcpClient.putProcessor(109 , new LoginReplyProcessor());
+            TcpClient.putProcessor(122, new ServerFrameProcessor());
             TcpClient.Connect();
 
 
@@ -62,7 +68,7 @@ namespace yg
         {
             updateMsg();
 
-            UpdateManager.Update();
+            InstanceManager.instance.Update();
 
             TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
 

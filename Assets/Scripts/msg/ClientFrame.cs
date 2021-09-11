@@ -7,8 +7,8 @@ namespace msg{
     {
         public long frameTime;
         public Vector2Msg posi;
-   
 
+        public Vector2Msg dir;
 
     }
 

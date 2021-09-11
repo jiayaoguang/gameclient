@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ServerFrame
-{
+namespace msg { 
 
-    Vector3 targetPos;
+    public class ServerFrameMsg
+    {
 
+        public List<PlayerFrameMsg> playerFrameMsgs;
+
+
+    }
 
 }
