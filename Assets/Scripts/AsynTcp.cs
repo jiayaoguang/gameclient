@@ -1,7 +1,8 @@
 
 using System;
-using System.Collections;
+
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -46,7 +47,7 @@ public class TcpClient
 
     public static void Connect()
     {
-        Connect("127.0.0.1", 8088);
+        Connect("47.93.13.212", 8088);
     }
 
     public static void Connect(String addr, int port)
@@ -225,8 +226,58 @@ public class TcpClient
         return protoClazz;
     }
 
-}
 
 
    
+
+
+
+
+}
+public interface UpdateAble
+{
+
+    bool Update();
+
+}
+
+public class UpdateManager
+{
+
+    public static List<UpdateAble> updatList = new List<UpdateAble>();
+
+
+    public static void Update()
+    {
+        List<UpdateAble> newUpdatList = null;
+
+        foreach (UpdateAble update in updatList)
+        {
+            if (!update.Update()) {
+                if (newUpdatList == null) {
+                    newUpdatList = new List<UpdateAble>();
+                }
+            }
+        }
+
+        updatList.Clear();
+        if (newUpdatList != null) {
+            updatList = newUpdatList;
+        }
+    }
+
+    public static void AddUpdateOnce(UpdateAble update)
+    {
+
+        updatList.Add(update);
+
+    }
+
+   
+
+
+}
+
+
+
 

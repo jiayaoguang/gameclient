@@ -47,16 +47,10 @@ public class LoginReplyProcessor : Processor
         //登录成功切场景
         string battleSceneName = "BattleScene";
 
-        SceneManager.LoadScene(battleSceneName);
-        Debug.Log("login success, LoadScene ......  " + JsonUtility.ToJson(loginReply));
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(battleSceneName);
+        Debug.Log("login success, LoadSceneAsyn ......  " + JsonUtility.ToJson(loginReply));
 
-        List<WallMsg> wallMsg = parseFromStr(str);
-
-        if (wallMsg != null && wallMsg.Count > 0) {
-            Debug.Log("createWalls ::: " + wallMsg.Count);
-            createWalls(wallMsg);
-        }
-
+        UpdateManager.AddUpdateOnce(new OnLoadLoginScene(asyncOperation , str , this));
 
 
     }
@@ -123,4 +117,38 @@ public class LoginReplyProcessor : Processor
     }
 
   
+}
+
+public class OnLoadLoginScene : UpdateAble
+{
+    private AsyncOperation asyncOperation;
+    private string str;
+    private LoginReplyProcessor loginReplyProcessor;
+
+    public OnLoadLoginScene(AsyncOperation asyncOperation , string str, LoginReplyProcessor loginReplyProcessor) {
+        this.asyncOperation = asyncOperation;
+        this.str = str;
+        this.loginReplyProcessor = loginReplyProcessor;
+    }
+
+
+    public bool Update()
+    {
+        if (asyncOperation.isDone)
+        {
+            List<WallMsg> wallMsg = loginReplyProcessor.parseFromStr(str);
+
+            if (wallMsg != null && wallMsg.Count > 0)
+            {
+                //Debug.Log("createWalls ::: " + wallMsg.Count);
+                loginReplyProcessor.createWalls(wallMsg);
+            }
+
+            Debug.Log("asyncOperation.isDone GetActiveScene().name : " + SceneManager.GetActiveScene().name);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

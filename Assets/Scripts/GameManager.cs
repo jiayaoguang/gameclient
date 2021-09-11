@@ -13,6 +13,9 @@ namespace yg
     public class GameManager : MonoBehaviour
     {
 
+
+
+
         /*    private Task<IChannel> channelTask;
         */    // Start is called before the first frame update
 
@@ -58,6 +61,8 @@ namespace yg
         void Update()
         {
             updateMsg();
+
+            UpdateManager.Update();
 
             TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
 
