@@ -8,6 +8,8 @@ using UnityEngine;
 class PlayerInfo
 {
 
+    public bool isEnterBattleScene;
+
     public long id;
     public string name;
 

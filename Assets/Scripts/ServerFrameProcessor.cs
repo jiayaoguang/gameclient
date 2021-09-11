@@ -17,6 +17,15 @@ public class ServerFrameProcessor : Processor
 
     public void process(byte[] msg)
     {
+        if (InstanceManager.instance.playerManager.myPlayerInfo == null)
+        {
+            return;
+        }
+
+        if (!InstanceManager.instance.playerManager.myPlayerInfo.isEnterBattleScene)
+        {
+            return;
+        }
 
         string str = System.Text.Encoding.Default.GetString(msg);
 
@@ -24,6 +33,9 @@ public class ServerFrameProcessor : Processor
 
 
         Debug.Log(" receieve serverFrame ...... " + serverFrame.playerFrameMsgs.Count);
+
+
+        
 
         foreach (PlayerFrameMsg playerFrameMsg in serverFrame.playerFrameMsgs) {
 
@@ -42,11 +54,12 @@ public class ServerFrameProcessor : Processor
                 playerInfo = new PlayerInfo();
                 playerInfo.id = playerFrameMsg.playerId;
                 playerInfo.gameObject = gameObject;
+                playerInfo.name = playerInfo.id + "";
                 InstanceManager.instance.playerManager.PutPlayerInfo(playerInfo);
 
                 Debug.Log(" create enemy ");
             }
-
+            
             playerInfo.gameObject.GetComponent<Transform>().position = new Vector3(playerFrameMsg.posi.x, playerFrameMsg.posi.y, 0);
         } 
 

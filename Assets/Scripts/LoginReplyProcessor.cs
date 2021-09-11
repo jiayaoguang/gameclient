@@ -44,6 +44,7 @@ public class LoginReplyProcessor : Processor
         PlayerInfo myPlayerInfo = new PlayerInfo();
         myPlayerInfo.name = loginReply.name;
         myPlayerInfo.id = loginReply.id;
+        myPlayerInfo.gameObject = GameObject.Find("Player");
         InstanceManager.instance.playerManager.myPlayerInfo = myPlayerInfo;
 
         //登录成功切场景
@@ -147,6 +148,8 @@ public class OnLoadLoginScene : UpdateAble
             }
 
             InstanceManager.instance.playerManager.myGameObject = GameObject.Find("Player");
+
+            InstanceManager.instance.playerManager.myPlayerInfo.isEnterBattleScene = true;
 
             Debug.Log("asyncOperation.isDone GetActiveScene().name : " + SceneManager.GetActiveScene().name);
             
