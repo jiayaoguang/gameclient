@@ -87,11 +87,61 @@ public class TcpClient : NetClient
 
 
 
-    public override int Receive(byte[] buffer)
+    public int Receive(byte[] buffer)
     {
         return clientSocket.Receive(buffer);
 
     }
+
+
+    public override void ReceiveMsg()
+    {
+
+
+        while (true)
+        {
+            try
+            {
+
+                byte[] buffer = new byte[1024 * 1024];
+                int readLen = Receive(buffer);
+
+
+
+
+
+                byte[] msg = new byte[readLen - 8];
+
+                int msgId = (buffer[4] & 0xff) >> 24;
+                msgId += (buffer[5] & 0xff) >> 16;
+                msgId += (buffer[6] & 0xff) << 8;
+                msgId += buffer[7];
+
+                for (int i = 8; i < readLen; i++)
+                {
+                    msg[i - 8] = buffer[i];
+                }
+
+                publicEvent(msgId, msg);
+
+                //string s = Encoding.UTF8.GetString(buffer, 8, readLen);
+
+
+
+                // Debug.Log("msgId : " + msgId + " ====receive msg : =====>>=" + s + " >> msgId"  );
+
+            }
+            catch (Exception ex)
+
+            {
+
+                Console.Error.WriteLine(ex.Message);
+                break;
+
+            }
+        }
+    }
+
 }
 
 

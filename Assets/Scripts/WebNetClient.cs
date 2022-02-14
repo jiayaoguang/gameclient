@@ -3,6 +3,7 @@ using System;
 
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Net.WebSockets;
@@ -18,8 +19,15 @@ public class WebNetClient : NetClient
 {
 
     private ClientWebSocket clientWebSocket = new ClientWebSocket();
-    private string webSocketUrl = "ws://{ip}:{port}";
+    private string webSocketUrl = "ws://127.0.0.1:8089";
 
+    private const int ReceiveChunkSize = 1024;
+    private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+    private readonly CancellationToken _cancellationToken;
+
+    public WebNetClient() {
+        _cancellationToken = _cancellationTokenSource.Token;
+    }
 
 
     public override void Send(int id, string content)
@@ -86,16 +94,89 @@ public class WebNetClient : NetClient
     }
 
 
-
-
-    public override int Receive(byte[] buffer)
+    public async override void ReceiveMsg()
     {
 
-        ArraySegment<byte> bytesReceived = new ArraySegment<byte>(buffer);
-        WebSocketReceiveResult result = clientWebSocket.ReceiveAsync(bytesReceived, CancellationToken.None).Result;
-        return result.Count;
+        
+        for (int loopTimes = 0; ; loopTimes++)
+        {
+            try
+            {
 
+                if((loopTimes & 1024) == 0){
+                    Thread.Sleep(1);
+                }
+
+                var buffer = new byte[ReceiveChunkSize];
+
+                byte[] byteResult = new byte[0];
+
+                while (clientWebSocket.State == WebSocketState.Open)
+                {
+                    
+
+                    WebSocketReceiveResult result;
+                    do
+                    {
+                        Debug.Log(" ========== ReceiveAsync start ");
+                        result = await clientWebSocket.ReceiveAsync(new ArraySegment<byte>(buffer), _cancellationToken);
+
+                        Debug.Log(" ========== ReceiveAsync ");
+
+                        if (result.MessageType == WebSocketMessageType.Close)
+                        {
+                            Disconnect();
+                        }
+                        else
+                        {
+                            byteResult = byteResult.Concat(buffer.Take(result.Count)).ToArray();
+                        }
+
+                    } while (!result.EndOfMessage);
+                }
+
+
+
+
+
+                    byte[] msg = new byte[byteResult.Length - 4];
+
+                int msgId = (byteResult[0] & 0xff) >> 24;
+                msgId += (byteResult[1] & 0xff) >> 16;
+                msgId += (byteResult[2] & 0xff) << 8;
+                msgId += byteResult[3];
+
+                for (int i = 4; i < byteResult.Length; i++)
+                {
+                    msg[i - 4] = byteResult[i];
+                }
+
+                publicEvent(msgId, msg);
+
+                //string s = Encoding.UTF8.GetString(buffer, 8, readLen);
+
+
+
+                Debug.Log("msgId : " + msgId + " ====receive msg : =====>>=" + msg + " >> msgId"  );
+
+            }
+            catch (Exception ex)
+
+            {
+
+                Console.Error.WriteLine(ex.Message);
+                break;
+
+            }
+        }
     }
+
+    private void Disconnect()
+    {
+        clientWebSocket.Dispose();
+    }
+
+  
 }
 
 

@@ -15,7 +15,7 @@ class InstanceManager
     }
 
 
-    public readonly NetClient netClient = new TcpClient();
+    public readonly NetClient netClient;
 
 
     public PlayerManager playerManager = new PlayerManager();
@@ -25,6 +25,12 @@ class InstanceManager
     public readonly LoginManager loginManager = new LoginManager();
 
     public readonly UpdateManager updateManager = new UpdateManager();
+
+
+    public InstanceManager() {
+
+        netClient = new WebNetClient();
+    }
 
 
     public void Init() {
