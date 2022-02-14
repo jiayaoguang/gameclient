@@ -42,22 +42,22 @@ namespace yg
             //TcpClient.Connect();
 
             //Console.WriteLine("1111111111111111");
-            TcpClient.PutProto(108, typeof(msg.LoginRequestMsg));
-            TcpClient.PutProto(109, typeof(msg.LoginReplyMsg));
-            TcpClient.PutProto(120, typeof(msg.CreateEnemyMsg));
+            InstanceManager.instance.netClient.PutProto(108, typeof(msg.LoginRequestMsg));
+            InstanceManager.instance.netClient.PutProto(109, typeof(msg.LoginReplyMsg));
+            InstanceManager.instance.netClient.PutProto(120, typeof(msg.CreateEnemyMsg));
 
-            TcpClient.PutProto(121, typeof(msg.ClientFrameMsg));
-            TcpClient.PutProto(122, typeof(msg.ServerFrameMsg));
+            InstanceManager.instance.netClient.PutProto(121, typeof(msg.ClientFrameMsg));
+            InstanceManager.instance.netClient.PutProto(122, typeof(msg.ServerFrameMsg));
 
             InstanceManager.instance.Init();
 
 
             DontDestroyOnLoad(gameObject);
 
-            TcpClient.putProcessor(120 , new CreateEnemyProcessor());
-            TcpClient.putProcessor(109 , new LoginReplyProcessor());
-            TcpClient.putProcessor(122, new ServerFrameProcessor());
-            TcpClient.Connect();
+            InstanceManager.instance.netClient.putProcessor(120 , new CreateEnemyProcessor());
+            InstanceManager.instance.netClient.putProcessor(109 , new LoginReplyProcessor());
+            InstanceManager.instance.netClient.putProcessor(122, new ServerFrameProcessor());
+            InstanceManager.instance.netClient.start();
 
 
 
@@ -90,12 +90,12 @@ namespace yg
 
         public void updateMsg() {
             EventData eventData = null;
-            TcpClient.globalQueue.TryDequeue(out eventData);
+            InstanceManager.instance.netClient.globalQueue.TryDequeue(out eventData);
             if (eventData != null)
             {
 
                 Processor processor;
-                TcpClient.processorDict.TryGetValue(eventData.msgId, out processor);
+                InstanceManager.instance.netClient.processorDict.TryGetValue(eventData.msgId, out processor);
 
                 if (processor != null)
                 {

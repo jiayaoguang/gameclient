@@ -29,7 +29,7 @@ public class LoginManager
         loginRequest.name = name;
         loginRequest.password = password;
 
-        TcpClient.Send(loginRequest);
+        InstanceManager.instance.netClient.Send(loginRequest);
 
         Debug.Log(" SendLoginRequest......... ");
 

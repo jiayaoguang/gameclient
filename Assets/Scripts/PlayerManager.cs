@@ -59,7 +59,7 @@ class PlayerManager
         clientFrameMsg.posi.x = myGameObject.transform.position.x;
         clientFrameMsg.posi.y = myGameObject.transform.position.y;
 
-        TcpClient.Send(clientFrameMsg);
+        InstanceManager.instance.netClient.Send(clientFrameMsg);
     }
 
 

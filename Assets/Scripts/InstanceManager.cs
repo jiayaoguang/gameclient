@@ -14,8 +14,9 @@ class InstanceManager
         }
     }
 
-    
-   
+
+    public readonly NetClient netClient = new TcpClient();
+
 
     public PlayerManager playerManager = new PlayerManager();
 

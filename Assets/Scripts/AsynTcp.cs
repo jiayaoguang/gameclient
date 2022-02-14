@@ -5,93 +5,28 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using UnityEngine;
 
 
 
-public class EventData {
-
-       
-
-    public int msgId 
-    {
-        get;set;
-    }
-
-    public byte[] msg
-    {
-        get; set;
-    }
 
 
-}
-
-public class TcpClient
+public class TcpClient : NetClient
 {
 
-
-    public static Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
+    public Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
 
-    public static ConcurrentDictionary<int, Processor> processorDict = new ConcurrentDictionary<int, Processor>();
-
-
-    public static ConcurrentQueue<EventData> globalQueue = new ConcurrentQueue<EventData>();
-
-
-    public static ConcurrentDictionary<int, Type> protoClassDict = new ConcurrentDictionary<int, Type>();
-    public static ConcurrentDictionary<Type, int> protoClass2IdDict = new ConcurrentDictionary<Type, int>();
-
-    public static void Connect()
+    private void SendBytes(byte[] sendBytes)
     {
-        Connect("47.93.13.212", 8088);
+        clientSocket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
     }
 
-    public static void Connect(String addr, int port)
-    {
-        try
-        {
-            IPAddress ip = IPAddress.Parse(addr);
 
-            IPEndPoint point = new IPEndPoint(ip, 8088);
-            clientSocket.Connect(point);
-
-            //clientSocket.ReceiveAsync
-
-            Thread th = new Thread(ReceiveMsg);
-
-            th.IsBackground = true;
-
-            th.Start();
-        }
-        catch(Exception e) {
-            string errorMsg = "´错误信息:\t\t" + e.Message + "\t\t" + e.GetType() + "\t\t" + e.StackTrace;
-            Debug.LogError(errorMsg);
-        }
-            
-
-    }
-
-    public static void Send(object data)
-    {
-        int msgId = GetMsgId(data.GetType());
-
-        if (msgId <= 0) {
-            Debug.LogError("msgId not found " + data.GetType());
-            return;
-        }
-        Send(msgId , data);
-
-    }
-
-        public static void Send(int id, object data) {
-        Send(id,InstanceManager.instance.jsonManager.Serialize(data));
-    }
-
-    public static void Send(int id, string content)
+    public override void Send(int id, string content)
     {
         byte[] byteArray = System.Text.Encoding.Default.GetBytes(content);
 
@@ -119,121 +54,50 @@ public class TcpClient
 
         }
 
-        clientSocket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
+        SendBytes(sendBytes);
     }
 
 
-    public static bool putProcessor(int id , Processor processor) {
 
-        return processorDict.TryAdd(id , processor);
-            
-    }
-
-
-    static void ReceiveMsg()
+    public override void Connect(String addr, int port)
     {
-
-
-        while (true)
-        {
-            try
-            {
-
-                byte[] buffer = new byte[1024 * 1024];
-                int readLen = clientSocket.Receive(buffer);
-
-  
-                   
-
-
-                byte[] msg = new byte[readLen - 8];
-
-                int msgId = (buffer[4] & 0xff) >> 24;
-                msgId += (buffer[5] & 0xff) >> 16;
-                msgId += (buffer[6] & 0xff) << 8;
-                msgId += buffer[7];
-
-                for (int i=8;i<readLen;i++) {
-                    msg[i-8] = buffer[i];
-                }
-
-                publicEvent(msgId , msg);
-
-                //string s = Encoding.UTF8.GetString(buffer, 8, readLen);
-
-                    
-
-               // Debug.Log("msgId : " + msgId + " ====receive msg : =====>>=" + s + " >> msgId"  );
-
-            }
-            catch (Exception ex)
-
-            {
-
-                Console.Error.WriteLine(ex.Message);
-                break;
-
-            }
-        }
-    }
-
-
-    public static void publicEvent(int msgId , byte[] msg)
-    {
-
-        Processor processor;
-        processorDict.TryGetValue(msgId,out processor);
-
-        if (processor != null)
+        try
         {
 
-            EventData eventData = new EventData();
-            eventData.msgId = msgId;
-            eventData.msg = msg;
 
-            globalQueue.Enqueue(eventData);
+
+
+
+            IPAddress ip = IPAddress.Parse(addr);
+
+            IPEndPoint point = new IPEndPoint(ip, 8088);
+            clientSocket.Connect(point);
+
 
         }
-        else {
-
-            Debug.Log("processor unkonwn , msgId :" + msgId);
+        catch (Exception e)
+        {
+            string errorMsg = "´错误信息:\t\t" + e.Message + "\t\t" + e.GetType() + "\t\t" + e.StackTrace;
+            Debug.LogError(errorMsg);
         }
 
+
     }
 
 
 
-    public static void PutProto(int msgId , Type protoClazz)
+
+    public override int Receive(byte[] buffer)
     {
-        protoClassDict.TryAdd(msgId , protoClazz);
-        protoClass2IdDict.TryAdd(protoClazz , msgId);
-    }
-
-
-    public static int GetMsgId(Type type) {
-
-        int msgId = 0;
-        protoClass2IdDict.TryGetValue(type , out msgId);
-        return msgId;
+        return clientSocket.Receive(buffer);
 
     }
-
-    public static Type GetProto(int msgId)
-    {
-        Type protoClazz;
-
-        protoClassDict.TryGetValue(msgId ,out protoClazz);
-        return protoClazz;
-    }
-
-
-
-   
-
-
-
-
 }
+
+
+
+
+
 
 
 
