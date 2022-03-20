@@ -63,7 +63,8 @@ public abstract class NetClient
 
     public void Connect()
     {
-        Connect("127.0.0.1", 8088);
+        //Connect("127.0.0.1", 8088);
+        Connect("47.93.13.212", 8088);
     }
 
     public abstract void Connect(String addr, int port);

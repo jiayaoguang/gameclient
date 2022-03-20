@@ -8,6 +8,15 @@ namespace msg{
         public float x;
 
         public float y;
+        public Vector2Msg()
+        {
+           
+        }
+        public Vector2Msg(float x, float y)
+        {
+            this.x = x;
+            this.y = y;
+        }
     }
 
 

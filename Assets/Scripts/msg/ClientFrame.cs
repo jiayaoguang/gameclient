@@ -10,6 +10,9 @@ namespace msg{
 
         public Vector2Msg dir;
 
+        public Vector2Msg bulletPosi;
+        public bool bulletActive;
+
     }
 
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using UnityEngine;
 
 class JsonManager
 {
@@ -15,7 +15,15 @@ class JsonManager
 
     public T Deserialize<T>(string obj)
     {
-        return JsonConvert.DeserializeObject<T>(obj);
+        try {
+            return JsonConvert.DeserializeObject<T>(obj);
+        }
+        catch (Exception e) {
+            Debug.Log(" Deserialize exception  : " + obj + " type :" + typeof(T));
+            throw e;
+        }
+
+        
     }
 }
 

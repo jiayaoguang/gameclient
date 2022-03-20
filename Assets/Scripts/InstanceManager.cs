@@ -26,10 +26,12 @@ class InstanceManager
 
     public readonly UpdateManager updateManager = new UpdateManager();
 
+    public readonly PrefabManager prefabManager = new PrefabManager();
+
 
     public InstanceManager() {
 
-        netClient = new WebNetClient();
+        netClient = new TcpClient();
     }
 
 
@@ -45,6 +47,9 @@ class InstanceManager
         updateManager.Update();
         playerManager.Update();
     }
+
+
+
 
 
 

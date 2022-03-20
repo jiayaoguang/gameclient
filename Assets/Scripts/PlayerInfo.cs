@@ -15,6 +15,18 @@ class PlayerInfo
 
     public GameObject gameObject;
 
+    public int score = 0;
+
+
+    public GameObject bullet;
+
+    public long bulletEndTime = 0L;
+
+    public Vector3 bulletDir = Vector3.up;
+
+
+    public int hp = 0;
+
 
 }
 

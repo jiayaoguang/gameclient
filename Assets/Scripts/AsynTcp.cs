@@ -71,6 +71,7 @@ public class TcpClient : NetClient
             IPAddress ip = IPAddress.Parse(addr);
 
             IPEndPoint point = new IPEndPoint(ip, 8088);
+            clientSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, true);
             clientSocket.Connect(point);
 
 

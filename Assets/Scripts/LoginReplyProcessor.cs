@@ -44,16 +44,11 @@ public class LoginReplyProcessor : Processor
         PlayerInfo myPlayerInfo = new PlayerInfo();
         myPlayerInfo.name = loginReply.name;
         myPlayerInfo.id = loginReply.id;
-        myPlayerInfo.gameObject = GameObject.Find("Player");
+        
+        
         InstanceManager.instance.playerManager.myPlayerInfo = myPlayerInfo;
 
-        //登录成功切场景
-        string battleSceneName = "BattleScene";
-
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(battleSceneName);
-        Debug.Log("login success, LoadSceneAsyn ......  ");
-
-        InstanceManager.instance.updateManager.AddUpdate(new OnLoadLoginScene(asyncOperation , loginReply.wallMsgs , this));
+        SceneUtil.LoadLobbyScene();
 
 
     }
@@ -98,67 +93,14 @@ public class LoginReplyProcessor : Processor
 
 
 
-    public void createWalls(List<WallMsg> wallMsgs) {
-
-        foreach ( WallMsg wallMsg in wallMsgs) {
-            //Debug.Log(" before createWalls ......  " + wallMsg.posi.x);
-            GameObject gameObject = GameObject.Instantiate(wallPrefab);
-            gameObject.GetComponent<Transform>().position = new Vector3(wallMsg.posi.x, wallMsg.posi.y, 0);
-            gameObject.GetComponent<Transform>().localScale = new Vector3(wallMsg.width, wallMsg.height, 0);
-            gameObject.SetActive(true);
-            //GameObject.DontDestroyOnLoad(gameObject);
-       
-        }
-
-        
-    }
 
 
-    public class WallsStr {
 
-       public string str;
-    }
 
   
-}
 
-public class OnLoadLoginScene : UpdateAble
-{
-    private AsyncOperation asyncOperation;
-    private List<WallMsg> wallMsgs;
-    private LoginReplyProcessor loginReplyProcessor;
 
-    public OnLoadLoginScene(AsyncOperation asyncOperation , List<WallMsg> wallMsgs, LoginReplyProcessor loginReplyProcessor) {
-        this.asyncOperation = asyncOperation;
-        this.wallMsgs = wallMsgs;
-        this.loginReplyProcessor = loginReplyProcessor;
-    }
 
-    public override void Update()
-    {
-        //Debug.Log("asyncOperation.isDone : " + asyncOperation.isDone);
-        if (asyncOperation.isDone)
-        {
-
-            Debug.Log("asyncOperation.isDone start ,,, GetActiveScene().name : " + SceneManager.GetActiveScene().name);
-            if (wallMsgs != null && wallMsgs.Count > 0)
-            {
-                //Debug.Log("createWalls ::: " + wallMsg.Count);
-                loginReplyProcessor.createWalls(wallMsgs);
-            }
-
-            InstanceManager.instance.playerManager.myGameObject = GameObject.Find("Player");
-
-            InstanceManager.instance.playerManager.myPlayerInfo.isEnterBattleScene = true;
-
-            Debug.Log("asyncOperation.isDone GetActiveScene().name : " + SceneManager.GetActiveScene().name);
-            
-            Stop();
-        }
-        else {
-            
-        }
-    }
 
    
 }

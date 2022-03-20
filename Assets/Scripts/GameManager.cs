@@ -2,6 +2,7 @@
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;*/
+using msg;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,6 +25,8 @@ namespace yg
 
         void Start()
         {
+
+            Application.targetFrameRate = 300;
             /*Bootstrap bootstrap = new Bootstrap();
             IEventLoopGroup eventLoopGroup = new MultithreadEventLoopGroup(1);
             bootstrap.Group(eventLoopGroup);
@@ -44,19 +47,35 @@ namespace yg
             //Console.WriteLine("1111111111111111");
             InstanceManager.instance.netClient.PutProto(108, typeof(msg.LoginRequestMsg));
             InstanceManager.instance.netClient.PutProto(109, typeof(msg.LoginReplyMsg));
-            InstanceManager.instance.netClient.PutProto(120, typeof(msg.CreateEnemyMsg));
+            InstanceManager.instance.netClient.PutProto(120, typeof(msg.SCPlayerJoinMsg));
 
             InstanceManager.instance.netClient.PutProto(121, typeof(msg.ClientFrameMsg));
             InstanceManager.instance.netClient.PutProto(122, typeof(msg.ServerFrameMsg));
+
+            InstanceManager.instance.netClient.PutProto(123, typeof(msg.CSEnterRoomMsg));
+            InstanceManager.instance.netClient.PutProto(124, typeof(msg.SCEnterRoomMsg));
+
+            InstanceManager.instance.netClient.PutProto(125, typeof(msg.CSHitMsg));
+            InstanceManager.instance.netClient.PutProto(126, typeof(SCHitMsg));
+
+            InstanceManager.instance.netClient.PutProto(127, typeof(SCRoomEndMsg));
+
 
             InstanceManager.instance.Init();
 
 
             DontDestroyOnLoad(gameObject);
 
-            InstanceManager.instance.netClient.putProcessor(120 , new CreateEnemyProcessor());
-            InstanceManager.instance.netClient.putProcessor(109 , new LoginReplyProcessor());
+            InstanceManager.instance.netClient.putProcessor(109, new LoginReplyProcessor());
+            InstanceManager.instance.netClient.putProcessor(120 , new SCPlayerJoinProcessor());
+            
             InstanceManager.instance.netClient.putProcessor(122, new ServerFrameProcessor());
+
+            InstanceManager.instance.netClient.putProcessor(124, new SCEnterRoomProcessor());
+
+            InstanceManager.instance.netClient.putProcessor(126, new SCHitProcessor());
+            InstanceManager.instance.netClient.putProcessor(127, new SCRoomEndProcessor());
+
             InstanceManager.instance.netClient.start();
 
 

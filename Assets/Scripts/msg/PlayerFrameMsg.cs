@@ -14,7 +14,10 @@ namespace msg{
         public Vector2Msg posi;
 
         public Vector2Msg dir;
+        public Vector2Msg bulletPosi;
+        public bool bulletActive;
 
+        public string name;
     }
 }
 
