@@ -122,14 +122,16 @@ public class TcpClient : NetClient
                 {
                     msg[i - 8] = buffer[i];
                 }
+                Debug.Log("msgId : " + msgId + " ====receive msg : =====>>=");
+                //publicEvent(msgId, msg);
 
-                publicEvent(msgId, msg);
+                handleReciveBytes(buffer,readLen);
 
                 //string s = Encoding.UTF8.GetString(buffer, 8, readLen);
 
 
 
-                // Debug.Log("msgId : " + msgId + " ====receive msg : =====>>=" + s + " >> msgId"  );
+                 
 
             }
             catch (Exception ex)
