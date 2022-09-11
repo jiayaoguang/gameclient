@@ -28,6 +28,8 @@ class InstanceManager
 
     public readonly PrefabManager prefabManager = new PrefabManager();
 
+    public readonly RoomObjManager roomObjManager = new RoomObjManager();
+
 
     public InstanceManager() {
 
@@ -38,6 +40,8 @@ class InstanceManager
     public void Init() {
 
         loginManager.Init();
+        
+        
 
     }
 

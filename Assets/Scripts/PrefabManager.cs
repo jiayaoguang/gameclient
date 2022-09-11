@@ -8,16 +8,21 @@ using UnityEngine;
 public class PrefabManager
 {
 
-    public GameObject enemyPrefab;
-    public GameObject bulletPrefab;
+    public readonly GameObject enemyPrefab;
+    public readonly GameObject bulletPrefab;
 
-    public GameObject enemyBulletPrefab;
+    public readonly GameObject enemyBulletPrefab;
+
+    public readonly GameObject borderPrefab;
     public PrefabManager()
     {
 
         enemyPrefab = Resources.Load<GameObject>("Prefabs/Enemy");
         bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
         enemyBulletPrefab = Resources.Load<GameObject>("Prefabs/EnemyBullet");
+        borderPrefab = Resources.Load<GameObject>("Prefabs/BorderCube");
+
+        // BorderCube
 
     }
 }

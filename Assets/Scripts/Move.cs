@@ -7,7 +7,7 @@ public class Move : MonoBehaviour
 {
     //public const float speed = 0.2f;
 
-    public const int side_length = 500;
+    public const int side_length = 150;
 
     public GameObject bulletPrefab;
 

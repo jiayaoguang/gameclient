@@ -88,6 +88,9 @@ public class SCEnterRoomProcessor : JsonProcessor<SCEnterRoomMsg>
         scoreTextGo.GetComponent<Text>().text = "score : " + InstanceManager.instance.playerManager.myPlayerInfo.score;
 
 
+        InstanceManager.instance.roomObjManager.CreateBorder();
+
+
         foreach (PlayerInfoMsg playerInfoMsg in enterRoomMsg.playerInfoMsgs)
         {
 
