@@ -35,5 +35,25 @@ class RoomObjManager
     }
 
 
+    public void uipdateMotionHp(GameObject motionGo , int hp) {
+
+        string parentName = motionGo.name;
+
+        GameObject go = GameObject.Find(parentName + "/HpText");
+        if (go == null)
+        {
+            Debug.Log(" UpdatePlayerSize fail  " + parentName + "/HpText" + " not found ===============");
+            return;
+        }
+
+        if (go.GetComponent<TextMesh>() == null)
+        {
+            Debug.Log(" UpdatePlayerSize fail  " + parentName + "/HpText TextMesh" + " not found ===============");
+            return;
+        }
+
+        go.GetComponent<TextMesh>().text = hp + "";
+    }
+
 }
 

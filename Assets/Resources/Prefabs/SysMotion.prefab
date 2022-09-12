@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 1072380351074681316}
   - component: {fileID: 8956032437454964235}
   m_Layer: 0
-  m_Name: EnemyMotion
+  m_Name: SysMotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,8 +122,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4001056280533548265}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.6, y: -0.4, z: 2}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2305256823585731757}
   m_Father: {fileID: 0}
@@ -156,7 +156,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 54dafb17e9e16704eab7f522c8016548, type: 2}
+  - {fileID: 2100000, guid: f0c82d28333e3624c918922fe5bed688, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

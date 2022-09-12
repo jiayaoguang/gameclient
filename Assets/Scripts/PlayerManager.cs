@@ -128,8 +128,13 @@ class PlayerManager
     public void createMotion(MotionMsg motionMsg) {
 
         GameObject motion;
+        if (motionMsg.ownPlayerId == 0L)
+        {
+            motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.sysMotionPrefab);
+            
 
-        if (motionMsg.ownPlayerId == InstanceManager.instance.playerManager.myPlayerInfo.id)
+        }
+        else if (motionMsg.ownPlayerId == InstanceManager.instance.playerManager.myPlayerInfo.id)
         {
             motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.myMotionPrefab);
 
@@ -141,9 +146,32 @@ class PlayerManager
         motion.transform.localScale = new Vector3(motionMsg.scale.x, motionMsg.scale.y, 1);
         motion.transform.position = new Vector3(motionMsg.posi.x, motionMsg.posi.y, 0);
 
+        uipdateMotionHp(motion , motionMsg.hp);
+
+        Debug.Log("createMotion motion id : " + motionMsg.ownPlayerId);
+
     }
 
 
+    public void uipdateMotionHp(GameObject motionGo, int hp)
+    {
 
+        string parentName = motionGo.name;
+
+        GameObject go = GameObject.Find(parentName + "/HpText");
+        if (go == null)
+        {
+            Debug.Log(" UpdatePlayerSize fail  " + parentName + "/HpText" + " not found ===============");
+            return;
+        }
+
+        if (go.GetComponent<TextMesh>() == null)
+        {
+            Debug.Log(" UpdatePlayerSize fail  " + parentName + "/HpText TextMesh" + " not found ===============");
+            return;
+        }
+
+        go.GetComponent<TextMesh>().text = hp + "";
+    }
 }
 
