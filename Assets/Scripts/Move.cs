@@ -1,4 +1,5 @@
-﻿using System;
+﻿using msg;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -91,12 +92,27 @@ public class Move : MonoBehaviour
         }
 
 
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            sendCreateMotionMsg( 1 , InstanceManager.instance.playerManager.myPlayerInfo.gameObject.transform.position);
+        }
+
+
 
     }
 
     void FixedUpdate()
     {
         UpdateBullet();
+    }
+
+
+    public void sendCreateMotionMsg(int type , Vector3 posi) {
+
+        CSCreateMotionMsg sendMsg = new CSCreateMotionMsg();
+        sendMsg.type = type;
+        sendMsg.posi = new Vector2Msg(posi.x , posi.y);
+        InstanceManager.instance.netClient.Send(sendMsg);
     }
 
 public void UpdateBullet()

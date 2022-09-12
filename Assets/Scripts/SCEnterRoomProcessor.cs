@@ -132,6 +132,11 @@ public class SCEnterRoomProcessor : JsonProcessor<SCEnterRoomMsg>
         }
 
 
+        foreach (MotionMsg motionMsg in enterRoomMsg.motionMsgs) {
+            InstanceManager.instance.playerManager.createMotion(motionMsg);
+        }
+
+
 
     }
     /*public List<WallMsg> parseFromStr(string str) {

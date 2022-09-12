@@ -1,4 +1,5 @@
-﻿using System;
+﻿using msg;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -119,6 +120,26 @@ class PlayerManager
         //Debug.Log(" player  " + playerInfo.name + " be hit HP : " + playerInfo.hp + " =============== obj name : " + playerInfo.gameObject.name);
 
 
+
+    }
+
+
+
+    public void createMotion(MotionMsg motionMsg) {
+
+        GameObject motion;
+
+        if (motionMsg.ownPlayerId == InstanceManager.instance.playerManager.myPlayerInfo.id)
+        {
+            motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.myMotionPrefab);
+
+        }
+        else
+        {
+            motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyMotionPrefab);
+        }
+        motion.transform.localScale = new Vector3(motionMsg.scale.x, motionMsg.scale.y, 1);
+        motion.transform.position = new Vector3(motionMsg.posi.x, motionMsg.posi.y, 0);
 
     }
 

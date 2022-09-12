@@ -14,6 +14,9 @@ public class PrefabManager
     public readonly GameObject enemyBulletPrefab;
 
     public readonly GameObject borderPrefab;
+
+    public readonly GameObject myMotionPrefab;
+    public readonly GameObject enemyMotionPrefab;
     public PrefabManager()
     {
 
@@ -21,6 +24,9 @@ public class PrefabManager
         bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
         enemyBulletPrefab = Resources.Load<GameObject>("Prefabs/EnemyBullet");
         borderPrefab = Resources.Load<GameObject>("Prefabs/BorderCube");
+
+        myMotionPrefab = Resources.Load<GameObject>("Prefabs/MyMotion");
+        enemyMotionPrefab = Resources.Load<GameObject>("Prefabs/EnemyMotion");
 
         // BorderCube
 

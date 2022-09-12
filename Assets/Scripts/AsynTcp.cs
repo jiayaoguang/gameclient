@@ -122,7 +122,7 @@ public class TcpClient : NetClient
                 {
                     msg[i - 8] = buffer[i];
                 }
-                Debug.Log("msgId : " + msgId + " ====receive msg : =====>>=");
+                //Debug.Log("msgId : " + msgId + " ====receive msg : =====>>=");
                 //publicEvent(msgId, msg);
 
                 handleReciveBytes(buffer,readLen);
