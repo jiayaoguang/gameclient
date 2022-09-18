@@ -22,29 +22,26 @@ public class TipText : MonoBehaviour
     {
         //GetComponent<Text>().text = msgObj.content;
 
-        string textContent = text.text;
-        if (textContent == null || textContent.Length == 0) {
 
+        if (InstanceManager.instance.playerManager.tipQueue.Count > 0)
+        {
+            text.text = InstanceManager.instance.playerManager.tipQueue.Dequeue();
 
-            if (InstanceManager.instance.playerManager.tipQueue.Count == 0)
-            {
-                return;
-            }
-            else {
-                text.text = InstanceManager.instance.playerManager.tipQueue.Dequeue();
-                this.gameObject.SetActive(true);
-                showOffCountDwon = 2;
-            }
+            showOffCountDwon = 2;
+        }
+
+        if ( showOffCountDwon <= 0) {
+            return;
             
         }
 
-
+        this.gameObject.SetActive(true);
         showOffCountDwon -= Time.deltaTime;
 
         if (showOffCountDwon > 0) {
             return;
         }
         text.text = "";
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
     }
 }

@@ -14,7 +14,7 @@ class TipProcessor : JsonProcessor<SCTipMsg>
         InstanceManager.instance.playerManager.tipQueue.Enqueue(msgObj.content);
 
 
-        Debug.Log(" get tip : " + msgObj.content);
+        //Debug.Log(" get tip : " + msgObj.content + " tip count " + InstanceManager.instance.playerManager.tipQueue.Count);
     }
 }
 

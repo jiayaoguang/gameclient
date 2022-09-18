@@ -94,7 +94,7 @@ public class Move : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.U))
         {
-            sendCreateMotionMsg( 1 , InstanceManager.instance.playerManager.myPlayerInfo.gameObject.transform.position);
+            sendCreateMotionMsg( 0 , InstanceManager.instance.playerManager.myPlayerInfo.gameObject.transform.position);
         }
 
 

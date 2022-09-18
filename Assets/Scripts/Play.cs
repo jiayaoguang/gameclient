@@ -33,33 +33,12 @@ public class Play : MonoBehaviour
     public void EnterBattleScene() {
 
 
-        string battleSceneName = "BattleScene";
+        InstanceManager.instance.netClient.Send(new CSEnterRoomMsg());
 
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(battleSceneName);
-        Debug.Log("login success, LoadSceneAsyn ......  ");
 
         
-
-        InstanceManager.instance.updateManager.AddUpdate(new OnLoadBattleScene(asyncOperation));
     }
 
 }
 
 
-class OnLoadBattleScene : UpdateAble
-{
-    AsyncOperation asyncOperation;
-
-    public OnLoadBattleScene(AsyncOperation asyncOperation) { 
-        this.asyncOperation = asyncOperation;
-    }
-
-    public override void Update()
-    {
-        if (asyncOperation.isDone)
-        {
-            Stop();
-            InstanceManager.instance.netClient.Send(new CSEnterRoomMsg());
-        }
-    }
-}

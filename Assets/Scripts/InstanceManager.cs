@@ -22,7 +22,7 @@ class InstanceManager
 
     public readonly JsonManager jsonManager = new JsonManager();
 
-    public readonly LoginManager loginManager = new LoginManager();
+    //public readonly LoginManager loginManager = new LoginManager();
 
     public readonly UpdateManager updateManager = new UpdateManager();
 
@@ -39,7 +39,7 @@ class InstanceManager
 
     public void Init() {
 
-        loginManager.Init();
+        //loginManager.Init();
         
         
 

@@ -148,13 +148,13 @@ class PlayerManager
                 {
                     if (motionMsg.ownPlayerId == InstanceManager.instance.playerManager.myPlayerInfo.id)
                     {
-                        motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.spanMotionPrefab);
-
+                        motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.spanMotionPrefab);   
                     }
                     else
                     {
                         motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemySpanMotionPrefab);
                     }
+                    motion.name = "SpanMotion" + motionMsg.uid;
                     break;
                 }
 
@@ -174,6 +174,7 @@ class PlayerManager
                     {
                         motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyMotionPrefab);
                     }
+                    motion.name = "Motion" + motionMsg.uid;
                     break;
             }
         }
@@ -182,14 +183,14 @@ class PlayerManager
         motion.transform.localScale = new Vector3(motionMsg.scale.x, motionMsg.scale.y, 1);
         motion.transform.position = new Vector3(motionMsg.posi.x, motionMsg.posi.y, 0);
 
-        uipdateMotionHp(motion , motionMsg.hp);
+        updateMotionHp(motion , motionMsg.hp);
 
-        Debug.Log("createMotion motion id : " + motionMsg.ownPlayerId);
+        Debug.Log("createMotion motion id : " + motionMsg.uid);
 
     }
 
 
-    public void uipdateMotionHp(GameObject motionGo, int hp)
+    public void updateMotionHp(GameObject motionGo, int hp)
     {
 
         string parentName = motionGo.name;

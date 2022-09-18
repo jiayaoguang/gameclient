@@ -18,20 +18,24 @@ class RoomObjManager
 
         GameObject topGo = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyPrefab);
         GameObject bottomGo = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyPrefab);
+        
 
         leftGo.GetComponent<Transform>().position = new Vector3(-150, 0,1);
         leftGo.GetComponent<Transform>().localScale = new Vector3(5, 1000, 10);
+        leftGo.name = "LeftBorder";
 
         rightGo.GetComponent<Transform>().position = new Vector3(150, 0, 1);
         rightGo.GetComponent<Transform>().localScale = new Vector3(5, 1000, 10);
+        rightGo.name = "RightBorder";
 
         topGo.GetComponent<Transform>().position = new Vector3(0, 150, 1);
         topGo.GetComponent<Transform>().localScale = new Vector3(1000, 5, 10);
-
+        topGo.name = "TopBorder";
 
 
         bottomGo.GetComponent<Transform>().position = new Vector3(0, -150, 1);
         bottomGo.GetComponent<Transform>().localScale = new Vector3(1000, 5, 10);
+        bottomGo.name = "BottomBorder";
     }
 
 

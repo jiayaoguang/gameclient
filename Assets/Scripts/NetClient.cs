@@ -124,7 +124,7 @@ public abstract class NetClient
 
     public void handleReciveBytes(byte[] buffer , int readLen) {
 
-        Debug.Log("Recive buff len " + readLen);
+        //Debug.Log("Recive buff len " + readLen);
 
         byte[] newBytes  = new byte[uncompleteMsg.Length + readLen];
 

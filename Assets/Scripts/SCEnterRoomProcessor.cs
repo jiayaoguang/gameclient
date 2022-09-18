@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static OnLoadLoginScene;
 
 public class SCEnterRoomProcessor : JsonProcessor<SCEnterRoomMsg>
 {
@@ -55,86 +56,24 @@ public class SCEnterRoomProcessor : JsonProcessor<SCEnterRoomMsg>
 
         
 
-        if (!SceneUtil.InBattleScene())
+        if (SceneUtil.InBattleScene())
         {
             return;
         }
 
-        InstanceManager.instance.playerManager.myPlayerInfo.score = enterRoomMsg.score;
-
-        Debug.Log("asyncOperation.isDone start ,,, GetActiveScene().name : " + SceneManager.GetActiveScene().name);
-
-        List<WallMsg> wallMsgs = enterRoomMsg.wallMsgs;
-
-        if (wallMsgs != null && wallMsgs.Count > 0)
-        {
-            //Debug.Log("createWalls ::: " + wallMsg.Count);
-            createWalls(wallMsgs);
-        }
 
 
-        InstanceManager.instance.playerManager.myPlayerInfo.gameObject = GameObject.Find("Player");
+        string battleSceneName = "BattleScene";
 
-        //InstanceManager.instance.playerManager.myPlayerInfo.gameObject.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/BlueMaterial");
-
-        InstanceManager.instance.playerManager.myPlayerInfo.isEnterBattleScene = true;
-
-
-        Debug.Log("asyncOperation.isDone GetActiveScene().name : " + SceneManager.GetActiveScene().name);
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(battleSceneName);
+        Debug.Log("login success, LoadSceneAsyn ......  ");
 
 
-        GameObject scoreTextGo = GameObject.Find("ScoreText");
 
-        scoreTextGo.GetComponent<Text>().text = "score : " + InstanceManager.instance.playerManager.myPlayerInfo.score;
-
-
-        InstanceManager.instance.roomObjManager.CreateBorder();
+        InstanceManager.instance.updateManager.AddUpdate(new OnLoadBattleScene( enterRoomMsg,asyncOperation));
 
 
-        foreach (PlayerInfoMsg playerInfoMsg in enterRoomMsg.playerInfoMsgs)
-        {
-
-            if (playerInfoMsg.playerId == InstanceManager.instance.playerManager.myPlayerInfo.id)
-            {
-                
-                InstanceManager.instance.playerManager.myPlayerInfo.hp = playerInfoMsg.hp;
-                InstanceManager.instance.playerManager.myPlayerInfo.gameObject.name = "Player";
-                InstanceManager.instance.playerManager.PutPlayerInfo(InstanceManager.instance.playerManager.myPlayerInfo);
-                InstanceManager.instance.playerManager.UpdatePlayerSize(InstanceManager.instance.playerManager.myPlayerInfo);
-                continue;
-            }
-
-            PlayerInfo playerInfo = InstanceManager.instance.playerManager.GetPlayerInfo(playerInfoMsg.playerId);
-            if (playerInfo == null)
-            {
-                GameObject gameObject = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyPrefab);
-
-
-                
-
-                playerInfo = new PlayerInfo();
-                playerInfo.id = playerInfoMsg.playerId;
-                playerInfo.gameObject = gameObject;
-                playerInfo.name = playerInfoMsg.name;
-                playerInfo.hp = playerInfoMsg.hp;
-
-                gameObject.SetActive(true);
-                gameObject.name = "Enemy_"+playerInfo.name;
-
-                InstanceManager.instance.playerManager.PutPlayerInfo(playerInfo);
-
-                InstanceManager.instance.playerManager.UpdatePlayerSize(playerInfo);
-
-                Debug.Log(" create enemy "  + gameObject.name);
-            }
-
-            playerInfo.gameObject.GetComponent<Transform>().position = new Vector3(playerInfoMsg.posi.x, playerInfoMsg.posi.y, 0);
-        }
-
-
-        foreach (MotionMsg motionMsg in enterRoomMsg.motionMsgs) {
-            InstanceManager.instance.playerManager.createMotion(motionMsg);
-        }
+       
 
 
 
@@ -256,6 +195,118 @@ public class OnLoadLoginScene : UpdateAble
         }
     }
 
+
+
+
+    public class OnLoadBattleScene : UpdateAble
+    {
+        AsyncOperation asyncOperation;
+
+        SCEnterRoomMsg enterRoomMsg;
+
+        public OnLoadBattleScene(SCEnterRoomMsg enterRoomMsg , AsyncOperation asyncOperation)
+        {
+            this.asyncOperation = asyncOperation;
+
+            this.enterRoomMsg = enterRoomMsg;
+        }
+
+        public override void Update()
+        {
+            if (asyncOperation.isDone)
+            {
+                Stop();
+
+
+
+                InstanceManager.instance.playerManager.myPlayerInfo.score = enterRoomMsg.score;
+
+                Debug.Log("asyncOperation.isDone start ,,, GetActiveScene().name : " + SceneManager.GetActiveScene().name);
+
+                List<WallMsg> wallMsgs = enterRoomMsg.wallMsgs;
+
+                if (wallMsgs != null && wallMsgs.Count > 0)
+                {
+                    //Debug.Log("createWalls ::: " + wallMsg.Count);
+                    //createWalls(wallMsgs);
+                }
+
+
+                InstanceManager.instance.playerManager.myPlayerInfo.gameObject = GameObject.Find("Player");
+
+                //InstanceManager.instance.playerManager.myPlayerInfo.gameObject.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/BlueMaterial");
+
+                InstanceManager.instance.playerManager.myPlayerInfo.isEnterBattleScene = true;
+
+
+                Debug.Log("asyncOperation.isDone GetActiveScene().name : " + SceneManager.GetActiveScene().name);
+
+
+                GameObject scoreTextGo = GameObject.Find("ScoreText");
+
+                scoreTextGo.GetComponent<Text>().text = "score : " + InstanceManager.instance.playerManager.myPlayerInfo.score;
+
+
+                InstanceManager.instance.roomObjManager.CreateBorder();
+
+
+                foreach (PlayerInfoMsg playerInfoMsg in enterRoomMsg.playerInfoMsgs)
+                {
+
+                    if (playerInfoMsg.playerId == InstanceManager.instance.playerManager.myPlayerInfo.id)
+                    {
+
+                        InstanceManager.instance.playerManager.myPlayerInfo.hp = playerInfoMsg.hp;
+                        InstanceManager.instance.playerManager.myPlayerInfo.gameObject.name = "Player";
+                        InstanceManager.instance.playerManager.PutPlayerInfo(InstanceManager.instance.playerManager.myPlayerInfo);
+                        InstanceManager.instance.playerManager.UpdatePlayerSize(InstanceManager.instance.playerManager.myPlayerInfo);
+                        continue;
+                    }
+
+                    PlayerInfo playerInfo = InstanceManager.instance.playerManager.GetPlayerInfo(playerInfoMsg.playerId);
+                    if (playerInfo == null)
+                    {
+                        GameObject gameObject = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyPrefab);
+
+
+
+
+                        playerInfo = new PlayerInfo();
+                        playerInfo.id = playerInfoMsg.playerId;
+                        playerInfo.gameObject = gameObject;
+                        playerInfo.name = playerInfoMsg.name;
+                        playerInfo.hp = playerInfoMsg.hp;
+
+                        gameObject.SetActive(true);
+                        gameObject.name = "Enemy_" + playerInfo.name;
+
+                        InstanceManager.instance.playerManager.PutPlayerInfo(playerInfo);
+
+                        InstanceManager.instance.playerManager.UpdatePlayerSize(playerInfo);
+
+                        Debug.Log(" create enemy " + gameObject.name);
+                    }
+
+                    playerInfo.gameObject.GetComponent<Transform>().position = new Vector3(playerInfoMsg.posi.x, playerInfoMsg.posi.y, 0);
+                }
+
+
+
+                for (int i = 0; i < enterRoomMsg.motionMsgs.Count; i ++)
+                {
+                    MotionMsg motionMsg = enterRoomMsg.motionMsgs[i];
+                    InstanceManager.instance.playerManager.createMotion(motionMsg);
+
+                    
+                }
+
+
+                Debug.Log("motionMsgs[0] :" + enterRoomMsg.motionMsgs[0].uid);
+                Debug.Log("motionMsgs[1] :" + enterRoomMsg.motionMsgs[1].uid);
+
+            }
+        }
+    }
 
 
 

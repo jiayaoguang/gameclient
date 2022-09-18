@@ -17,7 +17,7 @@ namespace msg
 
         public List<PlayerInfoMsg> playerInfoMsgs;
 
-        public List<MotionMsg> motionMsgs;
+        public List<MotionMsg> motionMsgs = new List<MotionMsg>();
 
 
     }
