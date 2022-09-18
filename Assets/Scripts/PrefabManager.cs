@@ -20,6 +20,9 @@ public class PrefabManager
     public readonly GameObject sysMotionPrefab;
 
 
+    public readonly GameObject enemySpanMotionPrefab;
+    public readonly GameObject spanMotionPrefab;
+
     public PrefabManager()
     {
 
@@ -32,6 +35,9 @@ public class PrefabManager
         enemyMotionPrefab = Resources.Load<GameObject>("Prefabs/EnemyMotion");
         sysMotionPrefab = Resources.Load<GameObject>("Prefabs/SysMotion");
 
+
+        enemySpanMotionPrefab = Resources.Load<GameObject>("Prefabs/SpanMotion");
+        spanMotionPrefab = Resources.Load<GameObject>("Prefabs/SpanMotion");
         // BorderCube
 
     }

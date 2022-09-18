@@ -21,7 +21,7 @@ public class LoginReplyProcessor : Processor
 
         LoginReplyMsg loginReply = InstanceManager.instance.jsonManager.Deserialize<LoginReplyMsg>(str);
 
-        Debug.Log(" walls num  " + loginReply.wallMsgs.Count + " one pos > " + loginReply.wallMsgs);
+       // Debug.Log(" walls num  " + loginReply.wallMsgs.Count + " one pos > " + loginReply.wallMsgs);
 
        
 
@@ -30,13 +30,14 @@ public class LoginReplyProcessor : Processor
             case 0:
                 break;
             case 1:
-                GameObject.Find("TipText").GetComponent<Text>().text = "密码错误";
+                InstanceManager.instance.playerManager.tipQueue .Enqueue( "密码错误");
                 return;
             case 2:
-                GameObject.Find("TipText").GetComponent<Text>().text = "服务器查询玩家数据超时";
+                InstanceManager.instance.playerManager.tipQueue.Enqueue("服务器查询玩家数据超时");
+               
                 return;
             default:
-                GameObject.Find("TipText").GetComponent<Text>().text = "oh wrong : " + loginReply.errorCode;
+                InstanceManager.instance.playerManager.tipQueue.Enqueue("oh wrong : " + loginReply.errorCode);
                 return;
         }
 

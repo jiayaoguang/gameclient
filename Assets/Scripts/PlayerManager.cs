@@ -16,6 +16,19 @@ class PlayerManager
     public Dictionary<string, PlayerInfo> name2playerInfoMap = new Dictionary<string, PlayerInfo>();
 
 
+    public readonly GameObject tipText;
+
+
+    public Queue<string> tipQueue = new Queue<string>();
+
+
+
+    public PlayerManager() {
+        tipText = GameObject.Find("TipText");
+        
+    }
+
+
     public void PutPlayerInfo(PlayerInfo playerInfo)
     {
         if (!playerInfoMap.ContainsKey(playerInfo.id)) {
@@ -128,21 +141,44 @@ class PlayerManager
     public void createMotion(MotionMsg motionMsg) {
 
         GameObject motion;
-        if (motionMsg.ownPlayerId == 0L)
-        {
-            motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.sysMotionPrefab);
-            
 
-        }
-        else if (motionMsg.ownPlayerId == InstanceManager.instance.playerManager.myPlayerInfo.id)
-        {
-            motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.myMotionPrefab);
+        switch (motionMsg.motionType) {
 
+            case 1:
+                {
+                    if (motionMsg.ownPlayerId == InstanceManager.instance.playerManager.myPlayerInfo.id)
+                    {
+                        motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.spanMotionPrefab);
+
+                    }
+                    else
+                    {
+                        motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemySpanMotionPrefab);
+                    }
+                    break;
+                }
+
+            default: {
+                    if (motionMsg.ownPlayerId == 0L)
+                    {
+                        motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.sysMotionPrefab);
+
+
+                    }
+                    else if (motionMsg.ownPlayerId == InstanceManager.instance.playerManager.myPlayerInfo.id)
+                    {
+                        motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.myMotionPrefab);
+
+                    }
+                    else
+                    {
+                        motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyMotionPrefab);
+                    }
+                    break;
+            }
         }
-        else
-        {
-            motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyMotionPrefab);
-        }
+
+        
         motion.transform.localScale = new Vector3(motionMsg.scale.x, motionMsg.scale.y, 1);
         motion.transform.position = new Vector3(motionMsg.posi.x, motionMsg.posi.y, 0);
 

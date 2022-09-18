@@ -63,6 +63,9 @@ namespace yg
             InstanceManager.instance.netClient.PutProto(128, typeof(CSCreateMotionMsg));
             InstanceManager.instance.netClient.PutProto(129, typeof(SCCreateMotionMsg));
 
+            InstanceManager.instance.netClient.PutProto(130, typeof(SCTipMsg));
+
+
 
             InstanceManager.instance.Init();
 
@@ -80,8 +83,8 @@ namespace yg
             InstanceManager.instance.netClient.putProcessor(127, new SCRoomEndProcessor());
 
             InstanceManager.instance.netClient.putProcessor(129, new SCCreateMotionProcessor());
-            
 
+            InstanceManager.instance.netClient.putProcessor(130, new TipProcessor());
 
 
 

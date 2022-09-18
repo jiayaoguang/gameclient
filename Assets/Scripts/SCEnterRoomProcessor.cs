@@ -25,7 +25,7 @@ public class SCEnterRoomProcessor : JsonProcessor<SCEnterRoomMsg>
     {
         
 
-        Debug.Log(" walls num  " + enterRoomMsg.wallMsgs.Count + " one pos > " + enterRoomMsg.wallMsgs);
+        //Debug.Log(" walls num  " + enterRoomMsg.wallMsgs.Count + " one pos > " + enterRoomMsg.wallMsgs);
 
 
 

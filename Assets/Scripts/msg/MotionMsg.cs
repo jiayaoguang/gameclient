@@ -13,7 +13,7 @@ namespace msg
 
         public long ownPlayerId;
 
-        public int type;
+        public int motionType;
 
         public Vector2Msg posi;
 
