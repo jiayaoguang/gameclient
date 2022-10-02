@@ -210,5 +210,56 @@ class PlayerManager
 
         go.GetComponent<TextMesh>().text = hp + "";
     }
+
+    public void UpdateMyPlayerState(int state) {
+
+        UpdatePlayerState( myPlayerInfo, state);
+    }
+
+
+    public void UpdatePlayerState(PlayerInfo playerInfo, int state)
+    {
+
+        if (state == 0)
+        {
+
+            if (playerInfo.state == 1)
+            {
+
+
+
+            }
+
+        }
+        else if (state == 1)
+        {
+            if (playerInfo.state == 0)
+            {
+
+
+
+            }
+        }
+        playerInfo.state = state;
+    }
+
+
+    public void UpdateMyPlayerPosi(float x,float y) {
+        UpdatePlayerPosi(myPlayerInfo, x, y);
+    }
+
+
+    public void UpdatePlayerPosi(PlayerInfo playerInfo ,float x, float y)
+    {
+        if (playerInfo.state == 0)
+        {
+            playerInfo.gameObject.GetComponent<Transform>().position = new Vector3(x, y, 0);
+        }
+        else
+        {
+            playerInfo.gameObject.GetComponent<Transform>().position = new Vector3(x, y, 40);
+        }
+    }
+
 }
 

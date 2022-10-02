@@ -27,6 +27,8 @@ public class PrefabManager
     public readonly GameObject blueGo;
     public readonly GameObject redGo;
 
+    public readonly GameObject greyGo;
+
     public PrefabManager()
     {
 
@@ -48,6 +50,8 @@ public class PrefabManager
 
         blueGo = Resources.Load<GameObject>("Prefabs/BlueSphere");
         redGo = Resources.Load<GameObject>("Prefabs/RedSphere");
+
+        greyGo = Resources.Load<GameObject>("Prefabs/GreySphere");
 
     }
 

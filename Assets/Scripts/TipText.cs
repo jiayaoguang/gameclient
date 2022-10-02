@@ -27,7 +27,7 @@ public class TipText : MonoBehaviour
         {
             text.text = InstanceManager.instance.playerManager.tipQueue.Dequeue();
 
-            showOffCountDwon = 2;
+            showOffCountDwon = 1;
         }
 
         if ( showOffCountDwon <= 0) {

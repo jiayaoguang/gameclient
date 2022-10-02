@@ -7,11 +7,7 @@ using UnityEngine;
 public class SCPlayerJoinProcessor : JsonProcessor<SCPlayerJoinMsg>
 {
 
-    private GameObject enemyPrefab;
-    public SCPlayerJoinProcessor() {
-
-        enemyPrefab = Resources.Load<GameObject>("Prefabs/Enemy");
-    }
+    
 
     
 
@@ -39,6 +35,7 @@ public class SCPlayerJoinProcessor : JsonProcessor<SCPlayerJoinMsg>
 
             gameObject.SetActive(true);
             gameObject.name = "Enemy_" + playerInfo.name;
+            gameObject.transform.position = new Vector3(playerInfoMsg.posi.x , playerInfoMsg.posi.y);
 
             InstanceManager.instance.playerManager.PutPlayerInfo(playerInfo);
 
@@ -48,7 +45,8 @@ public class SCPlayerJoinProcessor : JsonProcessor<SCPlayerJoinMsg>
         }
 
         //Debug.Log(" create enemy gameObject :" + playerInfo.gameObject + " posi :  " + (playerInfoMsg.posi == null));
+        InstanceManager.instance.playerManager.UpdatePlayerState(playerInfo, playerInfoMsg.state);
+        InstanceManager.instance.playerManager.UpdatePlayerPosi(playerInfo, playerInfoMsg.posi.x, playerInfoMsg.posi.y);
 
-        playerInfo.gameObject.GetComponent<Transform>().position = new Vector3(playerInfoMsg.posi.x, playerInfoMsg.posi.y, 0);
     }
 }

@@ -27,6 +27,8 @@ class PlayerInfo
 
     public int hp = 0;
 
+    public int state = 0;
+
 
 }
 

@@ -18,6 +18,8 @@ namespace msg{
         public bool bulletActive;
 
         public string name;
+
+        public int state;
     }
 }
 

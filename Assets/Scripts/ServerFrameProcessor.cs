@@ -93,7 +93,11 @@ public class ServerFrameProcessor : Processor
             }
 
 
-            playerInfo.gameObject.GetComponent<Transform>().position = new Vector3(playerFrameMsg.posi.x, playerFrameMsg.posi.y, 0);
+            InstanceManager.instance.playerManager.UpdatePlayerState(playerInfo ,playerFrameMsg.state);
+            InstanceManager.instance.playerManager.UpdatePlayerPosi(playerInfo , playerFrameMsg.posi.x, playerFrameMsg.posi.y);
+
+
+            
         } 
 
         

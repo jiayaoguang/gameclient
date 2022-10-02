@@ -179,6 +179,9 @@ public class OnLoadLoginScene : UpdateAble
 
             InstanceManager.instance.playerManager.myPlayerInfo.isEnterBattleScene = true;
 
+            
+            
+
 
             Debug.Log("asyncOperation.isDone GetActiveScene().name : " + SceneManager.GetActiveScene().name);
 
@@ -247,6 +250,7 @@ public class OnLoadLoginScene : UpdateAble
                 scoreTextGo.GetComponent<Text>().text = "score : " + InstanceManager.instance.playerManager.myPlayerInfo.score;
 
 
+
                 InstanceManager.instance.roomObjManager.CreateBorder();
 
 
@@ -260,6 +264,10 @@ public class OnLoadLoginScene : UpdateAble
                         InstanceManager.instance.playerManager.myPlayerInfo.gameObject.name = "Player";
                         InstanceManager.instance.playerManager.PutPlayerInfo(InstanceManager.instance.playerManager.myPlayerInfo);
                         InstanceManager.instance.playerManager.UpdatePlayerSize(InstanceManager.instance.playerManager.myPlayerInfo);
+
+                        InstanceManager.instance.playerManager.UpdatePlayerState(InstanceManager.instance.playerManager.myPlayerInfo, playerInfoMsg.state);
+                        InstanceManager.instance.playerManager.UpdatePlayerPosi(InstanceManager.instance.playerManager.myPlayerInfo, playerInfoMsg.posi.x, playerInfoMsg.posi.y);
+
                         continue;
                     }
 
@@ -279,6 +287,11 @@ public class OnLoadLoginScene : UpdateAble
 
                         gameObject.SetActive(true);
                         gameObject.name = "Enemy_" + playerInfo.name;
+
+                        InstanceManager.instance.playerManager.UpdatePlayerState(playerInfo, playerInfoMsg.state);
+                        InstanceManager.instance.playerManager.UpdatePlayerPosi(playerInfo, playerInfoMsg.posi.x, playerInfoMsg.posi.y);
+
+
 
                         InstanceManager.instance.playerManager.PutPlayerInfo(playerInfo);
 

@@ -31,6 +31,8 @@ namespace msg
 
         public int attackPlayerHp = 0;
 
+        public int targetState = 0;
+
     }
 
 
