@@ -266,7 +266,7 @@ public class OnLoadLoginScene : UpdateAble
                     PlayerInfo playerInfo = InstanceManager.instance.playerManager.GetPlayerInfo(playerInfoMsg.playerId);
                     if (playerInfo == null)
                     {
-                        GameObject gameObject = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyPrefab);
+                        GameObject gameObject = InstanceManager.instance.prefabManager.CreateEnemyGo();
 
 
 
@@ -301,8 +301,8 @@ public class OnLoadLoginScene : UpdateAble
                 }
 
 
-                Debug.Log("motionMsgs[0] :" + enterRoomMsg.motionMsgs[0].uid);
-                Debug.Log("motionMsgs[1] :" + enterRoomMsg.motionMsgs[1].uid);
+                //Debug.Log("motionMsgs[0] :" + enterRoomMsg.motionMsgs[0].uid);
+               // Debug.Log("motionMsgs[1] :" + enterRoomMsg.motionMsgs[1].uid);
 
             }
         }

@@ -9,15 +9,21 @@ class RoomObjManager
 {
 
 
+
+
+
     public void CreateBorder() {
+
+
+        Debug.Log("CreateBorder >>>>>>>>>>>>");
 
         
 
-        GameObject leftGo = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyPrefab);
-        GameObject rightGo = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyPrefab);
+        GameObject leftGo = GameObject.Instantiate(InstanceManager.instance.prefabManager.borderPrefab);
+        GameObject rightGo = GameObject.Instantiate(InstanceManager.instance.prefabManager.borderPrefab);
 
-        GameObject topGo = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyPrefab);
-        GameObject bottomGo = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyPrefab);
+        GameObject topGo = GameObject.Instantiate(InstanceManager.instance.prefabManager.borderPrefab);
+        GameObject bottomGo = GameObject.Instantiate(InstanceManager.instance.prefabManager.borderPrefab);
         
 
         leftGo.GetComponent<Transform>().position = new Vector3(-150, 0,1);

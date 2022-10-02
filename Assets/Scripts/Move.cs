@@ -41,61 +41,7 @@ public class Move : MonoBehaviour
     void Update()
     {
 
-        if (InstanceManager.instance.playerManager.myPlayerInfo == null) {
-            return;
-        }
-
-
-        float speed = Time.deltaTime * 10;
-
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) {
-            speed = 20;
-        }
-
-        if (Input.GetKey(KeyCode.W)) {
-            if (transform.position.y < side_length) { 
-                transform.position = new Vector3(transform.position.x, transform.position.y + speed, 0);
-            }
-            
-        }
-        else if(Input.GetKey(KeyCode.S)) {
-            if (transform.position.y > -side_length)
-            { 
-                transform.position = new Vector3(transform.position.x, transform.position.y - speed, 0);
-            }
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            if (transform.position.x > -side_length)
-            {
-                transform.position = new Vector3(transform.position.x - speed, transform.position.y, 0);
-            }
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            if (transform.position.x < side_length)
-            {
-                transform.position = new Vector3(transform.position.x + speed, transform.position.y , 0);
-            }
-        }
         
-        
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            shoot();
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            PlayeAttackAni();
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            sendCreateMotionMsg( 0 , InstanceManager.instance.playerManager.myPlayerInfo.gameObject.transform.position);
-        }
 
 
 
@@ -103,7 +49,89 @@ public class Move : MonoBehaviour
 
     void FixedUpdate()
     {
+
+
+
         UpdateBullet();
+
+
+
+        if (InstanceManager.instance.playerManager.myPlayerInfo == null)
+        {
+            return;
+        }
+
+
+        float speed = Time.deltaTime * 15;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        {
+            speed = 20;
+        }
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            if (transform.position.y < side_length)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y + speed, 0);
+            }
+
+        }else if (Input.GetKey(KeyCode.S))
+        {
+            if (transform.position.y < side_length)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y - speed, 0);
+            }
+
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            if (transform.position.y > -side_length)
+            {
+
+                transform.position = new Vector3(transform.position.x - speed, transform.position.y, 0);
+
+            }
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            if (transform.position.x > -side_length)
+            {
+                transform.position = new Vector3(transform.position.x + speed, transform.position.y, 0);
+            }
+        }
+
+        if (Input.GetKey(KeyCode.K))
+        {         
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.eulerAngles.y, transform.localEulerAngles.z + 0.5f);   
+        }
+        else if (Input.GetKey(KeyCode.L))
+        {
+            
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z - 0.5f);
+            
+        }
+        
+
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            shoot();
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            PlayeAttackAni();
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            sendCreateMotionMsg(0, InstanceManager.instance.playerManager.myPlayerInfo.gameObject.transform.position);
+        }
+
+
     }
 
 

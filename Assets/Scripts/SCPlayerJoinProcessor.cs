@@ -26,7 +26,7 @@ public class SCPlayerJoinProcessor : JsonProcessor<SCPlayerJoinMsg>
         PlayerInfo playerInfo = InstanceManager.instance.playerManager.GetPlayerInfo(playerInfoMsg.playerId);
         if (playerInfo == null)
         {
-            GameObject gameObject = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyPrefab);
+            GameObject gameObject = InstanceManager.instance.prefabManager.CreateEnemyGo();
 
 
 

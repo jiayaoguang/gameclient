@@ -8,7 +8,7 @@ using UnityEngine;
 public class PrefabManager
 {
 
-    public readonly GameObject enemyPrefab;
+    public readonly GameObject playerPrefab;
     public readonly GameObject bulletPrefab;
 
     public readonly GameObject enemyBulletPrefab;
@@ -23,10 +23,14 @@ public class PrefabManager
     public readonly GameObject enemySpanMotionPrefab;
     public readonly GameObject spanMotionPrefab;
 
+
+    public readonly GameObject blueGo;
+    public readonly GameObject redGo;
+
     public PrefabManager()
     {
 
-        enemyPrefab = Resources.Load<GameObject>("Prefabs/Enemy");
+        playerPrefab = Resources.Load<GameObject>("Prefabs/Player");
         bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
         enemyBulletPrefab = Resources.Load<GameObject>("Prefabs/EnemyBullet");
         borderPrefab = Resources.Load<GameObject>("Prefabs/BorderCube");
@@ -40,6 +44,24 @@ public class PrefabManager
         spanMotionPrefab = Resources.Load<GameObject>("Prefabs/SpanMotion");
         // BorderCube
 
+
+
+        blueGo = Resources.Load<GameObject>("Prefabs/BlueSphere");
+        redGo = Resources.Load<GameObject>("Prefabs/RedSphere");
+
     }
+
+
+    public GameObject CreateEnemyGo() {
+
+        GameObject gameObject = UnityEngine.Object.Instantiate(InstanceManager.instance.prefabManager.playerPrefab);
+
+
+        gameObject.GetComponent<Renderer>().sharedMaterial = redGo.GetComponent<Renderer>().sharedMaterial;
+
+        return gameObject;
+
+    }
+
 }
 

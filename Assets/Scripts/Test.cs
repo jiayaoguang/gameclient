@@ -17,7 +17,15 @@ public class Test : MonoBehaviour
             Debug.Log("obj not null //////");
         }
 
+
+        
+
         gameObject.name = "100000";
+
+        GameObject leftGo = GameObject.Instantiate(InstanceManager.instance.prefabManager.borderPrefab);
+        leftGo.name = "2000";
+
+        gameObject.GetComponent<Renderer>().sharedMaterial = InstanceManager.instance.prefabManager.borderPrefab.GetComponent<Renderer>().sharedMaterial;
 
     }
 

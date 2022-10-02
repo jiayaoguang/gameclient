@@ -14,5 +14,10 @@ namespace msg
 
         public Vector2Msg dir;
 
+        /**
+     * 0:正常 1:死亡
+     */
+        public int state;
+
     }
 }

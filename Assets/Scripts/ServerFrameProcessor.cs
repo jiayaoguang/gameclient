@@ -55,9 +55,9 @@ public class ServerFrameProcessor : Processor
             PlayerInfo playerInfo = InstanceManager.instance.playerManager.GetPlayerInfo(playerFrameMsg.playerId);
             if (playerInfo == null)
             {
-                GameObject gameObject = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyPrefab);
+                GameObject gameObject = InstanceManager.instance.prefabManager.CreateEnemyGo();
 
-                
+
                 gameObject.SetActive(true);
 
                 playerInfo = new PlayerInfo();
