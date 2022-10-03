@@ -61,6 +61,11 @@ public class Move : MonoBehaviour
             return;
         }
 
+        if (InstanceManager.instance.playerManager.myPlayerInfo.state != 0)
+        {
+            return;
+        }
+
 
         float speed = Time.deltaTime * 15;
 

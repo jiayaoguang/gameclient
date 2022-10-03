@@ -102,6 +102,11 @@ class PlayerManager
             clientFrameMsg.bulletActive = myPlayerInfo.bullet.activeInHierarchy;
         }
 
+
+        clientFrameMsg.dir = myPlayerInfo.gameObject.transform.localEulerAngles.z;
+
+
+
         InstanceManager.instance.netClient.Send(clientFrameMsg);
     }
 
@@ -114,26 +119,34 @@ class PlayerManager
         playerInfo.gameObject.transform.localScale
             = new Vector3(scaleSize, scaleSize, playerInfo.gameObject.transform.localScale.z);
 
-        string parentName = playerInfo.gameObject.name;
+        
 
-        GameObject go = GameObject.Find(parentName + "/HpText");
-        if (go == null) {
-            Debug.Log(" UpdatePlayerSize fail  " + parentName + "/HpText" + " not found ===============");
-            return;
-        }
-
-        if (go.GetComponent<TextMesh>() == null)
-        {
-            Debug.Log(" UpdatePlayerSize fail  " + parentName + "/HpText TextMesh" + " not found ===============");
-            return;
-        }
-
-        go.GetComponent<TextMesh>().text = playerInfo.hp + "";
+        
 
         //Debug.Log(" player  " + playerInfo.name + " be hit HP : " + playerInfo.hp + " =============== obj name : " + playerInfo.gameObject.name);
 
 
 
+    }
+
+
+
+    public void SetPlayerName(PlayerInfo playerInfo) {
+        string parentName = playerInfo.gameObject.name;
+        GameObject nameTextGo = GameObject.Find(parentName + "/NameText");
+        if (nameTextGo == null)
+        {
+            Debug.Log(" UpdatePlayerSize fail  " + parentName + "/NameText" + " not found ===============");
+            return;
+        }
+
+        if (nameTextGo.GetComponent<TextMesh>() == null)
+        {
+            Debug.Log(" UpdatePlayerSize fail  " + parentName + "/HpText TextMesh" + " not found ===============");
+            return;
+        }
+
+        nameTextGo.GetComponent<TextMesh>().text = playerInfo.name.Substring(0, Math.Min(playerInfo.name.Length, 2)) + "";
     }
 
 
@@ -259,6 +272,12 @@ class PlayerManager
         {
             playerInfo.gameObject.GetComponent<Transform>().position = new Vector3(x, y, 40);
         }
+    }
+
+
+
+    public void UpdatePlayerSize(int size) { 
+        
     }
 
 }

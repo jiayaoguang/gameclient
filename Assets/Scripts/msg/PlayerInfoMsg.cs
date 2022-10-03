@@ -12,7 +12,7 @@ namespace msg
 
         public Vector2Msg posi;
 
-        public Vector2Msg dir;
+        public float dir;
 
         /**
      * 0:正常 1:死亡

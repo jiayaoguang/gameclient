@@ -93,6 +93,9 @@ public class ServerFrameProcessor : Processor
             }
 
 
+            playerInfo.gameObject.transform.localEulerAngles = new Vector3(playerInfo.gameObject.transform.localEulerAngles.x , playerInfo.gameObject.transform.localEulerAngles.y , playerFrameMsg.dir);
+            
+
             InstanceManager.instance.playerManager.UpdatePlayerState(playerInfo ,playerFrameMsg.state);
             InstanceManager.instance.playerManager.UpdatePlayerPosi(playerInfo , playerFrameMsg.posi.x, playerFrameMsg.posi.y);
 

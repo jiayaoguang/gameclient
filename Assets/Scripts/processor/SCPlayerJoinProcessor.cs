@@ -40,6 +40,7 @@ public class SCPlayerJoinProcessor : JsonProcessor<SCPlayerJoinMsg>
             InstanceManager.instance.playerManager.PutPlayerInfo(playerInfo);
 
             InstanceManager.instance.playerManager.UpdatePlayerSize(playerInfo);
+            InstanceManager.instance.playerManager.SetPlayerName(playerInfo);
 
             Debug.Log(" create enemy " + gameObject.name);
         }
