@@ -67,5 +67,18 @@ public class PrefabManager
 
     }
 
+
+    public GameObject CreateSysGo()
+    {
+
+        GameObject gameObject = UnityEngine.Object.Instantiate(InstanceManager.instance.prefabManager.sysMotionPrefab);
+
+
+        //gameObject.GetComponent<Renderer>().sharedMaterial = redGo.GetComponent<Renderer>().sharedMaterial;
+
+        return gameObject;
+
+    }
+
 }
 

@@ -22,6 +22,9 @@ class PlayerManager
     public Queue<string> tipQueue = new Queue<string>();
 
 
+    public Dictionary<long, GameObject> uid2motionMap = new Dictionary<long, GameObject>();
+
+
 
     public PlayerManager() {
         tipText = GameObject.Find("TipText");
@@ -167,7 +170,15 @@ class PlayerManager
                     {
                         motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemySpanMotionPrefab);
                     }
-                    motion.name = "SpanMotion" + motionMsg.uid;
+                    motion.name = "SpanMotion_" + motionMsg.uid;
+                    break;
+                }
+            case 3:
+                {
+                    
+                    motion = InstanceManager.instance.prefabManager.CreateSysGo();
+                   
+                    motion.name = "SysMotion_" + motionMsg.uid;
                     break;
                 }
 
@@ -187,7 +198,7 @@ class PlayerManager
                     {
                         motion = GameObject.Instantiate(InstanceManager.instance.prefabManager.enemyMotionPrefab);
                     }
-                    motion.name = "Motion" + motionMsg.uid;
+                    motion.name = "Motion_" + motionMsg.uid;
                     break;
             }
         }
@@ -198,9 +209,29 @@ class PlayerManager
 
         updateMotionHp(motion , motionMsg.hp);
 
-        Debug.Log("createMotion motion id : " + motionMsg.uid);
+        if (uid2motionMap.ContainsKey(motionMsg.uid))
+        {
+            Debug.Log("createMotion motion fail ContainsKey id : " + motionMsg.uid + " call : " + GetCaller());
+        }
+        else { 
+            Debug.Log("createMotion motion id : " + motionMsg.uid);
+            uid2motionMap.Add(motionMsg.uid , motion);
+        }
+
 
     }
+
+
+    public static string GetCaller()
+    {
+        System.Diagnostics.StackTrace st = new System.Diagnostics.StackTrace(skipFrames: 1, fNeedFileInfo: true);
+        System.Diagnostics.StackFrame[] sfArray = st.GetFrames();
+        return string.Join(" -> ",
+            sfArray.Select(r =>
+              $"{r.GetMethod().Name} in {r.GetFileName()} line:{r.GetFileLineNumber()} column:{r.GetFileColumnNumber()}"));
+    }
+
+
 
 
     public void updateMotionHp(GameObject motionGo, int hp)
@@ -279,6 +310,30 @@ class PlayerManager
     public void UpdatePlayerSize(int size) { 
         
     }
+
+
+
+    public void Clear() {
+        if (myPlayerInfo!= null) {
+            myPlayerInfo.gameObject = null;
+        }
+
+        playerInfoMap.Clear();
+        name2playerInfoMap.Clear();
+        uid2motionMap.Clear(); ;
+
+    }
+
+
+    public void UpdateScore(PlayerInfo playerInfo , int score) {
+
+        GameObject scoreTextGo = GameObject.Find("ScoreText");
+        playerInfo.score = score;
+        scoreTextGo.GetComponent<Text>().text = "score : " + score;
+        ;
+    }
+
+
 
 }
 

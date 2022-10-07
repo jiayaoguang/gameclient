@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class SCUpdatePlayerScoreProcessor : JsonProcessor<SCUpdatePlayerScore>
+public class SCUpdatePlayerScoreProcessor : JsonProcessor<SCUpdatePlayerScoreMsg>
 {
     
 
-    public override void process(SCUpdatePlayerScore playerScoreMsg)
+    public override void process(SCUpdatePlayerScoreMsg playerScoreMsg)
     {
         if (!SceneUtil.InBattleScene()) {
             return;
@@ -20,12 +20,17 @@ public class SCUpdatePlayerScoreProcessor : JsonProcessor<SCUpdatePlayerScore>
         {
             return;
         }
-        playerInfo.score = playerScoreMsg.score;
+        
+
+        InstanceManager.instance.playerManager.UpdateScore( playerInfo , playerScoreMsg.score);
+
         GameObject gameObject = playerInfo.gameObject;
 
         float scale = playerScoreMsg.playerSize;
+        if (scale > 10) { 
+            gameObject.transform.localScale = new Vector3(scale, scale , scale);
+        }
 
-        gameObject.transform.localScale = new Vector3(scale, scale , scale);
 
         
 

@@ -67,6 +67,9 @@ public class Move : MonoBehaviour
         }
 
 
+        bool moved = false;
+
+
         float speed = Time.deltaTime * 15;
 
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
@@ -79,6 +82,7 @@ public class Move : MonoBehaviour
             if (transform.position.y < side_length)
             {
                 transform.position = new Vector3(transform.position.x, transform.position.y + speed, 0);
+                moved = true;
             }
 
         }else if (Input.GetKey(KeyCode.S))
@@ -86,6 +90,7 @@ public class Move : MonoBehaviour
             if (transform.position.y < side_length)
             {
                 transform.position = new Vector3(transform.position.x, transform.position.y - speed, 0);
+                moved = true;
             }
 
         }
@@ -95,6 +100,7 @@ public class Move : MonoBehaviour
             {
 
                 transform.position = new Vector3(transform.position.x - speed, transform.position.y, 0);
+                moved = true;
 
             }
         }
@@ -103,6 +109,7 @@ public class Move : MonoBehaviour
             if (transform.position.x > -side_length)
             {
                 transform.position = new Vector3(transform.position.x + speed, transform.position.y, 0);
+                moved = true;
             }
         }
 
@@ -135,8 +142,9 @@ public class Move : MonoBehaviour
         {
             sendCreateMotionMsg(0, InstanceManager.instance.playerManager.myPlayerInfo.gameObject.transform.position);
         }
-
-
+        if (moved) { 
+            CheckEatScoreMotion();
+        }
     }
 
 
@@ -231,9 +239,32 @@ public void UpdateBullet()
         //这个函数在碰撞开始时候调用，
 
 
-        Debug.Log("OnColliderEnter .....");
+        //Debug.Log("OnColliderEnter .....");
 
     }
+
+
+
+
+
+    private void CheckEatScoreMotion() {
+        Vector3 myPosi = InstanceManager.instance.playerManager.myPlayerInfo.gameObject.transform.position ;
+        foreach (long uid in InstanceManager.instance.playerManager.uid2motionMap.Keys) {
+            GameObject motion;
+            InstanceManager.instance.playerManager.uid2motionMap.TryGetValue(uid , out motion);
+            Vector3 posi = motion.transform.position;
+
+
+            if (Vector3.Distance( posi , myPosi ) < 10) {
+                CSEatScoreMotionMsg sendMsg = new CSEatScoreMotionMsg();
+                sendMsg.motionUid = uid;
+                InstanceManager.instance.netClient.Send(sendMsg);
+                
+            }
+        }
+    
+    }
+
 
 
     void PlayeAttackAni() {

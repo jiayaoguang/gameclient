@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace msg
 {
-    public class SCUpdatePlayerScore
+    class CSEatScoreMotionMsg
     {
 
-        public long playerId;
-
-        public int score;
-        public float playerSize;
+        public long motionUid;
 
     }
 }
