@@ -44,8 +44,11 @@ public class UpdateManager
                 }
                 waitDeleteList.Add(update);
             }
+            else{
+                update.Update();
+            }
 
-            update.Update();
+            
 
             //Debug.Log("executer update ..................");
 

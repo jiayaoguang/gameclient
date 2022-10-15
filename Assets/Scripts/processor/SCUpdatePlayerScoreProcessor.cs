@@ -26,13 +26,10 @@ public class SCUpdatePlayerScoreProcessor : JsonProcessor<SCUpdatePlayerScoreMsg
 
         GameObject gameObject = playerInfo.gameObject;
 
-        float scale = playerScoreMsg.playerSize;
-        if (scale > 10) { 
-            gameObject.transform.localScale = new Vector3(scale, scale , scale);
-        }
+        InstanceManager.instance.playerManager.UpdatePlayerSize(playerInfo, playerScoreMsg.playerSize);
 
 
-        
+
 
     }
 }

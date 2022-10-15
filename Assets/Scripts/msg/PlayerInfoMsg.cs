@@ -15,9 +15,11 @@ namespace msg
         public float dir;
 
         /**
-     * 0:正常 1:死亡
-     */
+         * 0:正常 1:死亡
+         */
         public int state;
+
+        public float playerSize = 0;
 
     }
 }

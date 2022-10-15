@@ -21,6 +21,7 @@ public class SCRoomEndProcessor : JsonProcessor<SCRoomEndMsg>
     {
         SceneUtil.LoadLobbyScene();
 
+        InstanceManager.instance.playerManager.uid2motionMap.Clear();
         InstanceManager.instance.playerManager.RemoveAllPlayerInfo();
 
 

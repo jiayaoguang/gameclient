@@ -87,7 +87,7 @@ public class Move : MonoBehaviour
 
         }else if (Input.GetKey(KeyCode.S))
         {
-            if (transform.position.y < side_length)
+            if (transform.position.y > -side_length)
             {
                 transform.position = new Vector3(transform.position.x, transform.position.y - speed, 0);
                 moved = true;
@@ -106,7 +106,7 @@ public class Move : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            if (transform.position.x > -side_length)
+            if (transform.position.x < side_length)
             {
                 transform.position = new Vector3(transform.position.x + speed, transform.position.y, 0);
                 moved = true;
@@ -143,7 +143,7 @@ public class Move : MonoBehaviour
             sendCreateMotionMsg(0, InstanceManager.instance.playerManager.myPlayerInfo.gameObject.transform.position);
         }
         if (moved) { 
-            CheckEatScoreMotion();
+         //   CheckEatScoreMotion();
         }
     }
 
@@ -239,8 +239,37 @@ public void UpdateBullet()
         //这个函数在碰撞开始时候调用，
 
 
-        //Debug.Log("OnColliderEnter .....");
 
+        String name = other.gameObject.name;
+        Debug.Log("OnColliderEnter ....." + name);
+        if (name == null || name.Length == 0) {
+            return;
+        }
+        if (name.StartsWith("SysMotion_")) {
+            long uid = Convert.ToInt64(name.Replace("SysMotion_", "")); ;
+            CSEatScoreMotionMsg sendMsg = new CSEatScoreMotionMsg();
+            sendMsg.motionUid = uid;
+            InstanceManager.instance.netClient.Send(sendMsg);
+        }
+
+    }
+
+    void OnTriggerEnter(Collider collider)
+    {
+
+        String name = collider.gameObject.name;
+        //Debug.Log("OnTriggerEnter ....." + name);
+        if (name == null || name.Length == 0)
+        {
+            return;
+        }
+        if (name.StartsWith("SysMotion_"))
+        {
+            long uid = Convert.ToInt64(name.Replace("SysMotion_", "")); ;
+            CSEatScoreMotionMsg sendMsg = new CSEatScoreMotionMsg();
+            sendMsg.motionUid = uid;
+            InstanceManager.instance.netClient.Send(sendMsg);
+        }
     }
 
 
@@ -249,13 +278,15 @@ public void UpdateBullet()
 
     private void CheckEatScoreMotion() {
         Vector3 myPosi = InstanceManager.instance.playerManager.myPlayerInfo.gameObject.transform.position ;
+        float playerSize = InstanceManager.instance.playerManager.myPlayerInfo.playerSize;
+        float eastDistance = playerSize + 0.5f;
         foreach (long uid in InstanceManager.instance.playerManager.uid2motionMap.Keys) {
             GameObject motion;
             InstanceManager.instance.playerManager.uid2motionMap.TryGetValue(uid , out motion);
             Vector3 posi = motion.transform.position;
 
 
-            if (Vector3.Distance( posi , myPosi ) < 10) {
+            if (Vector3.Distance( posi , myPosi ) <= eastDistance) {
                 CSEatScoreMotionMsg sendMsg = new CSEatScoreMotionMsg();
                 sendMsg.motionUid = uid;
                 InstanceManager.instance.netClient.Send(sendMsg);

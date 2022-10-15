@@ -30,5 +30,8 @@ class PlayerInfo
     public int state = 0;
 
 
+    public float playerSize = 0;
+
+
 }
 

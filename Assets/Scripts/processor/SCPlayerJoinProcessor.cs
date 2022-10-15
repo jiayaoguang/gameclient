@@ -39,8 +39,8 @@ public class SCPlayerJoinProcessor : JsonProcessor<SCPlayerJoinMsg>
 
             InstanceManager.instance.playerManager.PutPlayerInfo(playerInfo);
 
-            InstanceManager.instance.playerManager.UpdatePlayerSize(playerInfo);
             InstanceManager.instance.playerManager.SetPlayerName(playerInfo);
+            
 
             Debug.Log(" create enemy " + gameObject.name);
         }
@@ -48,6 +48,6 @@ public class SCPlayerJoinProcessor : JsonProcessor<SCPlayerJoinMsg>
         //Debug.Log(" create enemy gameObject :" + playerInfo.gameObject + " posi :  " + (playerInfoMsg.posi == null));
         InstanceManager.instance.playerManager.UpdatePlayerState(playerInfo, playerInfoMsg.state);
         InstanceManager.instance.playerManager.UpdatePlayerPosi(playerInfo, playerInfoMsg.posi.x, playerInfoMsg.posi.y);
-
+        InstanceManager.instance.playerManager.UpdatePlayerSize(playerInfo, playerInfoMsg.playerSize);
     }
 }

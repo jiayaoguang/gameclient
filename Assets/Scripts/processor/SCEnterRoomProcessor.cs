@@ -220,7 +220,8 @@ public class OnLoadLoginScene : UpdateAble
             {
                 Stop();
 
-
+                InstanceManager.instance.playerManager.uid2motionMap.Clear();
+                InstanceManager.instance.playerManager.RemoveAllPlayerInfo();
 
                 InstanceManager.instance.playerManager.myPlayerInfo.score = enterRoomMsg.score;
 
@@ -263,11 +264,11 @@ public class OnLoadLoginScene : UpdateAble
                         InstanceManager.instance.playerManager.myPlayerInfo.hp = playerInfoMsg.hp;
                         InstanceManager.instance.playerManager.myPlayerInfo.gameObject.name = "Player";
                         InstanceManager.instance.playerManager.PutPlayerInfo(InstanceManager.instance.playerManager.myPlayerInfo);
-                        InstanceManager.instance.playerManager.UpdatePlayerSize(InstanceManager.instance.playerManager.myPlayerInfo);
+                        
                         InstanceManager.instance.playerManager.SetPlayerName(InstanceManager.instance.playerManager.myPlayerInfo);
                         InstanceManager.instance.playerManager.UpdatePlayerState(InstanceManager.instance.playerManager.myPlayerInfo, playerInfoMsg.state);
                         InstanceManager.instance.playerManager.UpdatePlayerPosi(InstanceManager.instance.playerManager.myPlayerInfo, playerInfoMsg.posi.x, playerInfoMsg.posi.y);
-
+                        InstanceManager.instance.playerManager.UpdatePlayerSize(InstanceManager.instance.playerManager.myPlayerInfo , playerInfoMsg.playerSize);
 
                         InstanceManager.instance.playerManager.myPlayerInfo.gameObject.transform.localEulerAngles = 
                             new Vector3(InstanceManager.instance.playerManager.myPlayerInfo.gameObject.transform.localEulerAngles.x, InstanceManager.instance.playerManager.myPlayerInfo.gameObject.transform.localEulerAngles.y, playerInfoMsg.dir);
@@ -299,9 +300,10 @@ public class OnLoadLoginScene : UpdateAble
 
                         InstanceManager.instance.playerManager.PutPlayerInfo(playerInfo);
 
-                        InstanceManager.instance.playerManager.UpdatePlayerSize(playerInfo);
+                        InstanceManager.instance.playerManager.UpdatePlayerSize(playerInfo , playerInfoMsg.playerSize);
 
                         InstanceManager.instance.playerManager.SetPlayerName(playerInfo);
+                        InstanceManager.instance.playerManager.UpdatePlayerSize(playerInfo, playerInfoMsg.playerSize);
 
                         Debug.Log(" create enemy " + gameObject.name);
                     }

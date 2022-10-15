@@ -15,6 +15,7 @@ public class ExitBattle : MonoBehaviour
 
     public void exitBattle() {
         SceneUtil.LoadLobbyScene();
+        InstanceManager.instance.playerManager.uid2motionMap.Clear();
         InstanceManager.instance.playerManager.RemoveAllPlayerInfo();
     }
 

@@ -37,7 +37,7 @@ public class SCHitProcessor : JsonProcessor<SCHitMsg>
         PlayerInfo attackPlayer = InstanceManager.instance.playerManager.GetPlayerInfo(hitMsg.attackPlayerId);
         if (attackPlayer != null) {
             attackPlayer.hp = hitMsg.attackPlayerHp;
-            InstanceManager.instance.playerManager.UpdatePlayerSize(attackPlayer);
+            
         }
 
 
@@ -45,7 +45,7 @@ public class SCHitProcessor : JsonProcessor<SCHitMsg>
         if (hitPlayer != null)
         {
             hitPlayer.hp = hitMsg.targetHp;
-            InstanceManager.instance.playerManager.UpdatePlayerSize(hitPlayer);
+            
         }
 
 

@@ -207,14 +207,14 @@ class PlayerManager
         motion.transform.localScale = new Vector3(motionMsg.scale.x, motionMsg.scale.y, 1);
         motion.transform.position = new Vector3(motionMsg.posi.x, motionMsg.posi.y, 0);
 
-        updateMotionHp(motion , motionMsg.hp);
+        //updateMotionHp(motion , motionMsg.hp);
 
         if (uid2motionMap.ContainsKey(motionMsg.uid))
         {
             Debug.Log("createMotion motion fail ContainsKey id : " + motionMsg.uid + " call : " + GetCaller());
         }
         else { 
-            Debug.Log("createMotion motion id : " + motionMsg.uid);
+            //Debug.Log("createMotion motion id : " + motionMsg.uid);
             uid2motionMap.Add(motionMsg.uid , motion);
         }
 
@@ -234,26 +234,7 @@ class PlayerManager
 
 
 
-    public void updateMotionHp(GameObject motionGo, int hp)
-    {
-
-        string parentName = motionGo.name;
-
-        GameObject go = GameObject.Find(parentName + "/HpText");
-        if (go == null)
-        {
-            Debug.Log(" UpdatePlayerSize fail  " + parentName + "/HpText" + " not found ===============");
-            return;
-        }
-
-        if (go.GetComponent<TextMesh>() == null)
-        {
-            Debug.Log(" UpdatePlayerSize fail  " + parentName + "/HpText TextMesh" + " not found ===============");
-            return;
-        }
-
-        go.GetComponent<TextMesh>().text = hp + "";
-    }
+    
 
     public void UpdateMyPlayerState(int state) {
 
@@ -333,7 +314,14 @@ class PlayerManager
         ;
     }
 
+    public void UpdatePlayerSize(PlayerInfo playerInfo, float size)
+    {
 
+        playerInfo.gameObject.transform.localScale = new Vector3(size , size , playerInfo.gameObject.transform.localScale.z);
+        playerInfo.playerSize = size;
+
+
+    }
 
 }
 
