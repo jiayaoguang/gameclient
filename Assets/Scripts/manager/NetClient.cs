@@ -126,45 +126,41 @@ public abstract class NetClient
 
         //Debug.Log("Recive buff len " + readLen);
 
-        byte[] newBytes  = new byte[uncompleteMsg.Length + readLen];
-
-        for (int i = 0;i < newBytes.Length; i++) {
-
-            if (i <= uncompleteMsg.Length - 1) {
-                newBytes[i] = uncompleteMsg[i];
-            } else {
-                newBytes[i] = buffer[ i - (uncompleteMsg.Length ) ];
-            }
-
-        }
         
+
+
+        /* for (int i = 0;i < newBytes.Length; i++) {
+
+             if (i <= uncompleteMsg.Length - 1) {
+                 newBytes[i] = uncompleteMsg[i];
+             } else {
+                 newBytes[i] = buffer[ i - (uncompleteMsg.Length ) ];
+             }
+
+         }*/
+
+        byte[] newBytes = new byte[uncompleteMsg.Length + readLen];
+        if (uncompleteMsg.Length > 0) { 
+            Array.Copy(uncompleteMsg, 0, newBytes, 0, uncompleteMsg.Length);
+        }
+        Array.Copy(buffer, 0, newBytes, uncompleteMsg.Length, readLen);
         uncompleteMsg = newBytes;
+
 
 
         int uncompleteMsgIndex = 0;
 
-
-
-
-
         for (;uncompleteMsgIndex < uncompleteMsg.Length;) {
 
-            
-
-
-
-            int msgLength = (uncompleteMsg[uncompleteMsgIndex ] & 0xff) >> 24;
-            msgLength += (uncompleteMsg[uncompleteMsgIndex + 1] & 0xff) >> 16;
-            msgLength += (uncompleteMsg[uncompleteMsgIndex + 2] & 0xff) << 8;
+            int msgLength = (uncompleteMsg[uncompleteMsgIndex ] ) << 24;
+            msgLength += (uncompleteMsg[uncompleteMsgIndex + 1] ) << 16;
+            msgLength += (uncompleteMsg[uncompleteMsgIndex + 2]) << 8;
             msgLength += uncompleteMsg[uncompleteMsgIndex + 3];
 
 
-            
-
-
-            int msgId = (uncompleteMsg[uncompleteMsgIndex + 4] & 0xff) >> 24;
-            msgId += (uncompleteMsg[uncompleteMsgIndex + 5] & 0xff) >> 16;
-            msgId += (uncompleteMsg[uncompleteMsgIndex + 6] & 0xff) << 8;
+            int msgId = (uncompleteMsg[uncompleteMsgIndex + 4]) << 24;
+            msgId += (uncompleteMsg[uncompleteMsgIndex + 5]) << 16;
+            msgId += (uncompleteMsg[uncompleteMsgIndex + 6]) << 8;
             msgId += uncompleteMsg[uncompleteMsgIndex + 7];
 
             if ( uncompleteMsg.Length < (uncompleteMsgIndex + 4 + msgLength) ) {
